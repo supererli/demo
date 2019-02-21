@@ -19,6 +19,21 @@ import java.util.stream.Collectors;
 /**
  * Authenticate a user from the database.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.security
+ * @ClassName:      DomainUserDetailsService
+ * @Description:Gateway 登录时，会在该 service 进行鉴权,
+ *                     并创建 Authentication 的 principal 在 refreshToken .
+ *                     控制用户以什么样的方式登录获取鉴权在此处可以实现。
+ * @Author:         chenkangli
+ * @CreateDate:     15:37 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:37 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
 

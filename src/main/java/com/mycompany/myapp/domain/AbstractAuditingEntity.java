@@ -18,6 +18,19 @@ import javax.persistence.MappedSuperclass;
  * Base abstract class for entities which will hold definitions for created, last modified by and created,
  * last modified by date.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.domain
+ * @ClassName:      AbstractAuditingEntity
+ * @Description:    复用类，继承该类将自动在事件生命周期自动执行相关操作。
+ * @Author:         chenkangli
+ * @CreateDate:     15:26 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:26 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @MappedSuperclass
 @Audited
 @EntityListeners(AuditingEntityListener.class)

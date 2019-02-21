@@ -16,6 +16,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.sql.SQLException;
 import java.lang.NumberFormatException;
 
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      DatabaseConfiguration
+ * @Description:    数据库配置，liquibase读取masste.xml文件，进行校验
+ * @Author:         chenkangli
+ * @CreateDate:     15:17 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:17 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 @EnableJpaRepositories("com.mycompany.myapp.repository")
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")

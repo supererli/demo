@@ -10,7 +10,19 @@ import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      CloudDatabaseConfiguration
+ * @Description:    cloud数据库配置
+ * @Author:         chenkangli
+ * @CreateDate:     15:15 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:15 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 @Profile(JHipsterConstants.SPRING_PROFILE_CLOUD)
 public class CloudDatabaseConfiguration extends AbstractCloudConfig {

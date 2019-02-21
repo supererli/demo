@@ -37,9 +37,9 @@ spring:
             indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:file:./target/h2db/db/demo;DB_CLOSE_DELAY=-1
-        username: demo
-        password:
+        url: jdbc:mysql://localhost:3306/spring?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+        password: root
         hikari:
             auto-commit: false
     h2:

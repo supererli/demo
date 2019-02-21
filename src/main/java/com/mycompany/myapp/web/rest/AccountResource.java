@@ -13,6 +13,8 @@ import com.mycompany.myapp.web.rest.errors.*;
 import com.mycompany.myapp.web.rest.vm.KeyAndPasswordVM;
 import com.mycompany.myapp.web.rest.vm.ManagedUserVM;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +28,22 @@ import java.util.*;
 /**
  * REST controller for managing the current user's account.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.web.rest
+ * @ClassName:      AccountResource
+ * @Description:    用户注册、登录、更新、获取权限后登录、用户信息、更改密码等
+ * @Author:         chenkangli
+ * @CreateDate:     15:46 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:46 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @RestController
 @RequestMapping("/api")
+@Api(value = "账户信息管理",description = "账户信息管理")
 public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
@@ -56,6 +72,7 @@ public class AccountResource {
     @PostMapping("/register")
     @Timed
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "注册账户")
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
@@ -72,6 +89,7 @@ public class AccountResource {
      */
     @GetMapping("/activate")
     @Timed
+    @ApiOperation(value = "激活账户")
     public void activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
@@ -87,6 +105,7 @@ public class AccountResource {
      */
     @GetMapping("/authenticate")
     @Timed
+    @ApiOperation(value = "身份验证")
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
         return request.getRemoteUser();
@@ -100,6 +119,7 @@ public class AccountResource {
      */
     @GetMapping("/account")
     @Timed
+    @ApiOperation(value = "获取账户")
     public UserDTO getAccount() {
         return userService.getUserWithAuthorities()
             .map(UserDTO::new)
@@ -115,6 +135,7 @@ public class AccountResource {
      */
     @PostMapping("/account")
     @Timed
+    @ApiOperation(value = "保存账户")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -137,6 +158,7 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/change-password")
     @Timed
+    @ApiOperation(value = "修改密码")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
@@ -152,6 +174,7 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/reset-password/init")
     @Timed
+    @ApiOperation(value = "重置密码")
     public void requestPasswordReset(@RequestBody String mail) {
        mailService.sendPasswordResetMail(
            userService.requestPasswordReset(mail)
@@ -168,6 +191,7 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/reset-password/finish")
     @Timed
+    @ApiOperation(value = "完成密码重置")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
         if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
@@ -180,6 +204,7 @@ public class AccountResource {
         }
     }
 
+    @ApiOperation(value = "检验密码长度")
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&
             password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH &&

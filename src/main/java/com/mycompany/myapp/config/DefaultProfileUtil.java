@@ -8,9 +8,17 @@ import org.springframework.core.env.Environment;
 import java.util.*;
 
 /**
- * Utility class to load a Spring profile to be used as default
- * when there is no <code>spring.profiles.active</code> set in the environment or as command line argument.
- * If the value is not available in <code>application.yml</code> then <code>dev</code> profile will be used as default.
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      DefaultProfileUtil
+ * @Description:    默认属性文件工具
+ * @Author:         chenkangli
+ * @CreateDate:     15:20 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:20 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
  */
 public final class DefaultProfileUtil {
 

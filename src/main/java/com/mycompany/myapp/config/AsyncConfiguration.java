@@ -17,6 +17,19 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      AsyncConfiguration
+ * @Description:     异步任务线程池配置
+ * @Author:         chenkangli
+ * @CreateDate:     15:14 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:14 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 @EnableAsync
 @EnableScheduling

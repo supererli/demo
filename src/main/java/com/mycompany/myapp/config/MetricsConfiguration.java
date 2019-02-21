@@ -28,7 +28,19 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
-
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      MetricsConfiguration
+ * @Description:    监控配置
+ * @Author:         chenkangli
+ * @CreateDate:     15:22 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:22 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 @EnableMetrics(proxyTargetClass = true)
 public class MetricsConfiguration extends MetricsConfigurerAdapter implements ServletContextInitializer {

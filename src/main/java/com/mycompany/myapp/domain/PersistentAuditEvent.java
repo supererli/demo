@@ -13,6 +13,19 @@ import java.util.Map;
  *
  * @see org.springframework.boot.actuate.audit.AuditEvent
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.domain
+ * @ClassName:      PersistentAuditEvent
+ * @Description:    记录相关网站操作事件
+ * @Author:         chenkangli
+ * @CreateDate:     15:27 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:27 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Entity
 @Table(name = "jhi_persistent_audit_event")
 public class PersistentAuditEvent implements Serializable {

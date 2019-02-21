@@ -23,6 +23,19 @@ import java.time.Instant;
 /**
  * A user.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.domain
+ * @ClassName:      User
+ * @Description:    用户相关属性
+ * @Author:         chenkangli
+ * @CreateDate:     15:28 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:28 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Entity
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

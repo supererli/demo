@@ -1,0 +1,38 @@
+entity Course {
+	courseName String required,
+    courseType String required
+}
+entity Teacher {
+	teacherNo String required,
+	teacherName String required,
+    teacherTel String,
+    teacherTime Instant required
+}
+entity Grade {
+	gradeName String required,
+    gradeAcademy String required,
+    gradeDepartment String,
+    headTeacher String,
+    gradeTime Instant required
+}
+entity Lab {
+	labName String required,
+    labType String required,
+    labVolume Integer,
+    labTime Instant required
+}
+entity Student {
+	name String required,
+    stuNo String required
+}
+relationship ManyToMany {
+	Grade{teacher} to Teacher{grade},
+    Lab{course} to Course{lab}
+}
+relationship ManyToOne {
+	Course{teacher} to Teacher{course(courseName) required},
+    Teacher{user(login)} to User,
+    Student{grade} to Grade{student}
+}
+paginate Course, Teacher, Grade, Lab, Student with infinite-scroll
+

@@ -35,6 +35,19 @@ import static java.net.URLDecoder.decode;
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      WebConfigurer
+ * @Description:    CorsFillter 可以在此处配置
+ * @Author:         chenkangli
+ * @CreateDate:     15:25 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:25 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer<WebServerFactory> {
 
@@ -145,7 +158,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         FilterRegistration.Dynamic cachingHttpHeadersFilter =
             servletContext.addFilter("cachingHttpHeadersFilter",
                 new CachingHttpHeadersFilter(jHipsterProperties));
-
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");

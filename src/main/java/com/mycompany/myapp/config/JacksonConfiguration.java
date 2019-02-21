@@ -9,7 +9,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.problem.ProblemModule;
 import org.zalando.problem.violations.ConstraintViolationProblemModule;
-
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.config
+ * @ClassName:      JacksonConfiguration
+ * @Description:    json配置
+ * @Author:         chenkangli
+ * @CreateDate:     15:20 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:20 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Configuration
 public class JacksonConfiguration {
 

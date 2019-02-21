@@ -9,6 +9,19 @@ import java.util.Optional;
 /**
  * Utility class for Spring Security.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.security
+ * @ClassName:      SecurityUtils
+ * @Description:    实用工具栏，提供获取当前用户的principle，用户是否登陆，当前用户角色
+ * @Author:         chenkangli
+ * @CreateDate:     15:39 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:39 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 public final class SecurityUtils {
 
     private SecurityUtils() {

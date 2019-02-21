@@ -13,6 +13,19 @@ import java.io.Serializable;
 /**
  * An authority (a security role) used by Spring Security.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.domain
+ * @ClassName:      Authority
+ * @Description:    用户权限
+ * @Author:         chenkangli
+ * @CreateDate:     15:27 2019/2/21
+ * @UpdateUser:
+ * @UpdateDate:     15:27 2019/2/21
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 @Entity
 @Table(name = "jhi_authority")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
