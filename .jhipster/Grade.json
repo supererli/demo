@@ -1,0 +1,59 @@
+{
+    "name": "Grade",
+    "fields": [
+        {
+            "fieldName": "gradeName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "gradeAcademy",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "gradeDepartment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "headTeacher",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "gradeTime",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "grade",
+            "relationshipName": "teacher",
+            "otherEntityName": "teacher",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "student",
+            "otherEntityName": "student",
+            "otherEntityRelationshipName": "grade"
+        }
+    ],
+    "changelogDate": "20190114154846",
+    "entityTableName": "grade",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,61 @@
+{
+    "name": "Teacher",
+    "fields": [
+        {
+            "fieldName": "teacherNo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "teacherName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "teacherTel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "teacherTime",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipValidateRules": "required",
+            "relationshipName": "course",
+            "otherEntityName": "course",
+            "otherEntityRelationshipName": "teacher"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "grade",
+            "otherEntityName": "grade",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "teacher"
+        }
+    ],
+    "changelogDate": "20190114154845",
+    "entityTableName": "teacher",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

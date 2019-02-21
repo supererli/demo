@@ -1,0 +1,27 @@
+{
+    "demoApp": {
+        "teacher": {
+            "home": {
+                "title": "Teachers",
+                "createLabel": "Create a new Teacher",
+                "createOrEditLabel": "Create or edit a Teacher"
+            },
+            "created": "A new Teacher is created with identifier {{ param }}",
+            "updated": "A Teacher is updated with identifier {{ param }}",
+            "deleted": "A Teacher is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Teacher {{ id }}?"
+            },
+            "detail": {
+                "title": "Teacher"
+            },
+            "teacherNo": "Teacher No",
+            "teacherName": "Teacher Name",
+            "teacherTel": "Teacher Tel",
+            "teacherTime": "Teacher Time",
+            "user": "User",
+            "course": "Course",
+            "grade": "Grade"
+        }
+    }
+}

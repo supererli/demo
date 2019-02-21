@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="demoApp.grade.home.title">Grades</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-grade" [routerLink]="['/grade/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="demoApp.grade.home.createLabel">
+            Create new Grade
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="grades">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gradeName"><span jhiTranslate="demoApp.grade.gradeName">Grade Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gradeAcademy"><span jhiTranslate="demoApp.grade.gradeAcademy">Grade Academy</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gradeDepartment"><span jhiTranslate="demoApp.grade.gradeDepartment">Grade Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="headTeacher"><span jhiTranslate="demoApp.grade.headTeacher">Head Teacher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gradeTime"><span jhiTranslate="demoApp.grade.gradeTime">Grade Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let grade of grades ;trackBy: trackId">
+                <td><a [routerLink]="['/grade', grade.id, 'view' ]">{{grade.id}}</a></td>
+                <td>{{grade.gradeName}}</td>
+                <td>{{grade.gradeAcademy}}</td>
+                <td>{{grade.gradeDepartment}}</td>
+                <td>{{grade.headTeacher}}</td>
+                <td>{{grade.gradeTime | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/grade', grade.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/grade', grade.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'grade/'+ grade.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

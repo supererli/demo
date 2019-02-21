@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-lab-heading" jhiTranslate="demoApp.lab.home.createOrEditLabel">Create or edit a Lab</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!lab.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="lab.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.lab.labName" for="field_labName">Lab Name</label>
+                    <input type="text" class="form-control" name="labName" id="field_labName"
+                        [(ngModel)]="lab.labName" required/>
+                    <div [hidden]="!(editForm.controls.labName?.dirty && editForm.controls.labName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.labName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.lab.labType" for="field_labType">Lab Type</label>
+                    <input type="text" class="form-control" name="labType" id="field_labType"
+                        [(ngModel)]="lab.labType" required/>
+                    <div [hidden]="!(editForm.controls.labType?.dirty && editForm.controls.labType?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.labType?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.lab.labVolume" for="field_labVolume">Lab Volume</label>
+                    <input type="number" class="form-control" name="labVolume" id="field_labVolume"
+                        [(ngModel)]="lab.labVolume" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.lab.labTime" for="field_labTime">Lab Time</label>
+                    <div class="d-flex">
+                        <input id="field_labTime" type="datetime-local" class="form-control" name="labTime" [(ngModel)]="labTime"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.labTime?.dirty && editForm.controls.labTime?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.labTime?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.labTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="demoApp.lab.course" for="field_course">Course</label>
+                    <select class="form-control" id="field_course" multiple name="course" [(ngModel)]="lab.courses">
+                        <option [ngValue]="getSelected(lab.courses, courseOption)" *ngFor="let courseOption of courses; trackBy: trackCourseById">{{courseOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

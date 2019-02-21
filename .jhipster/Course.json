@@ -1,0 +1,43 @@
+{
+    "name": "Course",
+    "fields": [
+        {
+            "fieldName": "courseName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "courseType",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "teacher",
+            "otherEntityName": "teacher",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "lab",
+            "otherEntityName": "lab",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "course"
+        }
+    ],
+    "changelogDate": "20190114154844",
+    "entityTableName": "course",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

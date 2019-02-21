@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-teacher-heading" jhiTranslate="demoApp.teacher.home.createOrEditLabel">Create or edit a Teacher</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!teacher.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="teacher.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.teacher.teacherNo" for="field_teacherNo">Teacher No</label>
+                    <input type="text" class="form-control" name="teacherNo" id="field_teacherNo"
+                        [(ngModel)]="teacher.teacherNo" required/>
+                    <div [hidden]="!(editForm.controls.teacherNo?.dirty && editForm.controls.teacherNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.teacherNo?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.teacher.teacherName" for="field_teacherName">Teacher Name</label>
+                    <input type="text" class="form-control" name="teacherName" id="field_teacherName"
+                        [(ngModel)]="teacher.teacherName" required/>
+                    <div [hidden]="!(editForm.controls.teacherName?.dirty && editForm.controls.teacherName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.teacherName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.teacher.teacherTel" for="field_teacherTel">Teacher Tel</label>
+                    <input type="text" class="form-control" name="teacherTel" id="field_teacherTel"
+                        [(ngModel)]="teacher.teacherTel" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.teacher.teacherTime" for="field_teacherTime">Teacher Time</label>
+                    <div class="d-flex">
+                        <input id="field_teacherTime" type="datetime-local" class="form-control" name="teacherTime" [(ngModel)]="teacherTime"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.teacherTime?.dirty && editForm.controls.teacherTime?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.teacherTime?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.teacherTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.teacher.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" [(ngModel)]="teacher.user" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id === teacher.user?.id ? teacher.user : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.course?.dirty && editForm.controls.course?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.course?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

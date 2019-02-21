@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="lab">
+            <h2><span jhiTranslate="demoApp.lab.detail.title">Lab</span> {{lab.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="demoApp.lab.labName">Lab Name</span></dt>
+                <dd>
+                    <span>{{lab.labName}}</span>
+                </dd>
+                <dt><span jhiTranslate="demoApp.lab.labType">Lab Type</span></dt>
+                <dd>
+                    <span>{{lab.labType}}</span>
+                </dd>
+                <dt><span jhiTranslate="demoApp.lab.labVolume">Lab Volume</span></dt>
+                <dd>
+                    <span>{{lab.labVolume}}</span>
+                </dd>
+                <dt><span jhiTranslate="demoApp.lab.labTime">Lab Time</span></dt>
+                <dd>
+                    <span>{{lab.labTime}}</span>
+                </dd>
+                <dt><span jhiTranslate="demoApp.lab.course">Course</span></dt>
+                <dd>
+                    <span *ngFor="let course of lab.courses; let last = last">
+                        <a [routerLink]="['/course', course?.id, 'view' ]">{{course.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/lab', lab.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
