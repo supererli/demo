@@ -4,8 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { GradeService } from 'app/entities/grade/grade.service';
 import { IGrade, Grade } from 'app/shared/model/grade.model';
 
@@ -15,7 +13,6 @@ describe('Service Tests', () => {
         let service: GradeService;
         let httpMock: HttpTestingController;
         let elemDefault: IGrade;
-        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -23,19 +20,13 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(GradeService);
             httpMock = injector.get(HttpTestingController);
-            currentDate = moment();
 
-            elemDefault = new Grade(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate);
+            elemDefault = new Grade(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign(
-                    {
-                        gradeTime: currentDate.format(DATE_TIME_FORMAT)
-                    },
-                    elemDefault
-                );
+                const returnedFromService = Object.assign({}, elemDefault);
                 service
                     .find(123)
                     .pipe(take(1))
@@ -48,17 +39,11 @@ describe('Service Tests', () => {
             it('should create a Grade', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0,
-                        gradeTime: currentDate.format(DATE_TIME_FORMAT)
+                        id: 0
                     },
                     elemDefault
                 );
-                const expected = Object.assign(
-                    {
-                        gradeTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .create(new Grade(null))
                     .pipe(take(1))
@@ -72,19 +57,12 @@ describe('Service Tests', () => {
                     {
                         gradeName: 'BBBBBB',
                         gradeAcademy: 'BBBBBB',
-                        gradeDepartment: 'BBBBBB',
-                        headTeacher: 'BBBBBB',
-                        gradeTime: currentDate.format(DATE_TIME_FORMAT)
+                        gradeDepartment: 'BBBBBB'
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign(
-                    {
-                        gradeTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -98,18 +76,11 @@ describe('Service Tests', () => {
                     {
                         gradeName: 'BBBBBB',
                         gradeAcademy: 'BBBBBB',
-                        gradeDepartment: 'BBBBBB',
-                        headTeacher: 'BBBBBB',
-                        gradeTime: currentDate.format(DATE_TIME_FORMAT)
+                        gradeDepartment: 'BBBBBB'
                     },
                     elemDefault
                 );
-                const expected = Object.assign(
-                    {
-                        gradeTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .query(expected)
                     .pipe(

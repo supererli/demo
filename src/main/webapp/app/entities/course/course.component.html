@@ -17,6 +17,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="courseName"><span jhiTranslate="demoApp.course.courseName">Course Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="courseType"><span jhiTranslate="demoApp.course.courseType">Course Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="timeTable"><span jhiTranslate="demoApp.course.timeTable">Time Table</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="teacher.id"><span jhiTranslate="demoApp.course.teacher">Teacher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -26,6 +27,7 @@
                 <td><a [routerLink]="['/course', course.id, 'view' ]">{{course.id}}</a></td>
                 <td>{{course.courseName}}</td>
                 <td>{{course.courseType}}</td>
+                <td>{{course.timeTable}}</td>
                 <td>
                     <div *ngIf="course.teacher">
                         <a [routerLink]="['../teacher', course.teacher?.id, 'view' ]" >{{course.teacher?.id}}</a>

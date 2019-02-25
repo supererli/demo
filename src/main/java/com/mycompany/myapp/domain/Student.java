@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -32,9 +35,12 @@ public class Student implements Serializable {
     @Column(name = "stu_no", nullable = false)
     private String stuNo;
 
+    @OneToMany(mappedBy = "studentName")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Grade> classNames = new HashSet<>();
     @ManyToOne
-    @JsonIgnoreProperties("students")
-    private Grade grade;
+    @JsonIgnoreProperties("studentNames")
+    private Grade className;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -71,17 +77,42 @@ public class Student implements Serializable {
         this.stuNo = stuNo;
     }
 
-    public Grade getGrade() {
-        return grade;
+    public Set<Grade> getClassNames() {
+        return classNames;
     }
 
-    public Student grade(Grade grade) {
-        this.grade = grade;
+    public Student classNames(Set<Grade> grades) {
+        this.classNames = grades;
         return this;
     }
 
-    public void setGrade(Grade grade) {
-        this.grade = grade;
+    public Student addClassName(Grade grade) {
+        this.classNames.add(grade);
+        grade.setStudentName(this);
+        return this;
+    }
+
+    public Student removeClassName(Grade grade) {
+        this.classNames.remove(grade);
+        grade.setStudentName(null);
+        return this;
+    }
+
+    public void setClassNames(Set<Grade> grades) {
+        this.classNames = grades;
+    }
+
+    public Grade getClassName() {
+        return className;
+    }
+
+    public Student className(Grade grade) {
+        this.className = grade;
+        return this;
+    }
+
+    public void setClassName(Grade grade) {
+        this.className = grade;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

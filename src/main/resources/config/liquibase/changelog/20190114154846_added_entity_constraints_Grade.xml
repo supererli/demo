@@ -8,6 +8,18 @@
     -->
     <changeSet id="20190114154846-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="head_teacher_id"
+                                 baseTableName="grade"
+                                 constraintName="fk_grade_head_teacher_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="teacher"/>
+
+        <addForeignKeyConstraint baseColumnNames="teacher_id"
+                                 baseTableName="grade"
+                                 constraintName="fk_grade_teacher_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="time_table"/>
+
         <addForeignKeyConstraint baseColumnNames="grades_id"
                                  baseTableName="grade_teacher"
                                  constraintName="fk_grade_teacher_grades_id"
@@ -19,5 +31,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="teacher"/>
         
+        <addForeignKeyConstraint baseColumnNames="student_name_id"
+                                 baseTableName="grade"
+                                 constraintName="fk_grade_student_name_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="student"/>
+
     </changeSet>
 </databaseChangeLog>

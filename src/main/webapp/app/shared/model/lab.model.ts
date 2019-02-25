@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { ITimeTable } from 'app/shared/model//time-table.model';
 import { ICourse } from 'app/shared/model//course.model';
 
 export interface ILab {
@@ -6,7 +6,7 @@ export interface ILab {
     labName?: string;
     labType?: string;
     labVolume?: number;
-    labTime?: Moment;
+    timeTable?: ITimeTable;
     courses?: ICourse[];
 }
 
@@ -16,7 +16,7 @@ export class Lab implements ILab {
         public labName?: string,
         public labType?: string,
         public labVolume?: number,
-        public labTime?: Moment,
+        public timeTable?: ITimeTable,
         public courses?: ICourse[]
     ) {}
 }

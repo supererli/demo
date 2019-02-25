@@ -9,9 +9,12 @@ import com.mycompany.myapp.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -22,12 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import static com.mycompany.myapp.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,8 +51,14 @@ public class CourseResourceIntTest {
     private static final String DEFAULT_COURSE_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_COURSE_TYPE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TIME_TABLE = "AAAAAAAAAA";
+    private static final String UPDATED_TIME_TABLE = "BBBBBBBBBB";
+
     @Autowired
     private CourseRepository courseRepository;
+
+    @Mock
+    private CourseRepository courseRepositoryMock;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -89,7 +100,8 @@ public class CourseResourceIntTest {
     public static Course createEntity(EntityManager em) {
         Course course = new Course()
             .courseName(DEFAULT_COURSE_NAME)
-            .courseType(DEFAULT_COURSE_TYPE);
+            .courseType(DEFAULT_COURSE_TYPE)
+            .timeTable(DEFAULT_TIME_TABLE);
         return course;
     }
 
@@ -115,6 +127,7 @@ public class CourseResourceIntTest {
         Course testCourse = courseList.get(courseList.size() - 1);
         assertThat(testCourse.getCourseName()).isEqualTo(DEFAULT_COURSE_NAME);
         assertThat(testCourse.getCourseType()).isEqualTo(DEFAULT_COURSE_TYPE);
+        assertThat(testCourse.getTimeTable()).isEqualTo(DEFAULT_TIME_TABLE);
     }
 
     @Test
@@ -174,6 +187,24 @@ public class CourseResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTimeTableIsRequired() throws Exception {
+        int databaseSizeBeforeTest = courseRepository.findAll().size();
+        // set the field null
+        course.setTimeTable(null);
+
+        // Create the Course, which fails.
+
+        restCourseMockMvc.perform(post("/api/courses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(course)))
+            .andExpect(status().isBadRequest());
+
+        List<Course> courseList = courseRepository.findAll();
+        assertThat(courseList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCourses() throws Exception {
         // Initialize the database
         courseRepository.saveAndFlush(course);
@@ -184,9 +215,43 @@ public class CourseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(course.getId().intValue())))
             .andExpect(jsonPath("$.[*].courseName").value(hasItem(DEFAULT_COURSE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].courseType").value(hasItem(DEFAULT_COURSE_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].courseType").value(hasItem(DEFAULT_COURSE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].timeTable").value(hasItem(DEFAULT_TIME_TABLE.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllCoursesWithEagerRelationshipsIsEnabled() throws Exception {
+        CourseResource courseResource = new CourseResource(courseRepositoryMock);
+        when(courseRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCourseMockMvc.perform(get("/api/courses?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(courseRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllCoursesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        CourseResource courseResource = new CourseResource(courseRepositoryMock);
+            when(courseRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCourseMockMvc.perform(get("/api/courses?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(courseRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getCourse() throws Exception {
@@ -199,7 +264,8 @@ public class CourseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(course.getId().intValue()))
             .andExpect(jsonPath("$.courseName").value(DEFAULT_COURSE_NAME.toString()))
-            .andExpect(jsonPath("$.courseType").value(DEFAULT_COURSE_TYPE.toString()));
+            .andExpect(jsonPath("$.courseType").value(DEFAULT_COURSE_TYPE.toString()))
+            .andExpect(jsonPath("$.timeTable").value(DEFAULT_TIME_TABLE.toString()));
     }
 
     @Test
@@ -224,7 +290,8 @@ public class CourseResourceIntTest {
         em.detach(updatedCourse);
         updatedCourse
             .courseName(UPDATED_COURSE_NAME)
-            .courseType(UPDATED_COURSE_TYPE);
+            .courseType(UPDATED_COURSE_TYPE)
+            .timeTable(UPDATED_TIME_TABLE);
 
         restCourseMockMvc.perform(put("/api/courses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -237,6 +304,7 @@ public class CourseResourceIntTest {
         Course testCourse = courseList.get(courseList.size() - 1);
         assertThat(testCourse.getCourseName()).isEqualTo(UPDATED_COURSE_NAME);
         assertThat(testCourse.getCourseType()).isEqualTo(UPDATED_COURSE_TYPE);
+        assertThat(testCourse.getTimeTable()).isEqualTo(UPDATED_TIME_TABLE);
     }
 
     @Test

@@ -15,6 +15,8 @@ import java.util.Optional;
  * @Package:        com.mycompany.myapp.security
  * @ClassName:      SecurityUtils
  * @Description:    实用工具栏，提供获取当前用户的principle，用户是否登陆，当前用户角色
+ * 用来从SecurityContextHolder取出securityContext,,并判断其用户名,是否验证等信息.
+ * 具体使用场景-rest resource.
  * @Author:         chenkangli
  * @CreateDate:     15:39 2019/2/21
  * @UpdateUser:

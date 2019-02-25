@@ -18,16 +18,17 @@
         {
             "fieldName": "labVolume",
             "fieldType": "Integer"
-        },
-        {
-            "fieldName": "labTime",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "timeTable",
+            "otherEntityName": "timeTable",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "lab"
+        },
         {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "lab",

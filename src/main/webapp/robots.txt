@@ -1,5 +1,8 @@
 # robotstxt.org/
 
+给google机器人用的网站描述文件。JHipster是SPA，那么与后端的api就自然出现在
+Disallow中了
+
 User-agent: *
 Disallow: /api/account
 Disallow: /api/account/change-password

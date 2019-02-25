@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Api(value = "班级管理",description = "班级管理")
+@Api(value = "",description = "班级管理")
 public class GradeResource {
 
     private final Logger log = LoggerFactory.getLogger(GradeResource.class);
@@ -52,7 +52,7 @@ public class GradeResource {
      */
     @PostMapping("/grades")
     @Timed
-    @ApiOperation(value = "创建班级")
+    @ApiOperation(value = "新增班级")
     public ResponseEntity<Grade> createGrade(@Valid @RequestBody Grade grade) throws URISyntaxException {
         log.debug("REST request to save Grade : {}", grade);
         if (grade.getId() != null) {

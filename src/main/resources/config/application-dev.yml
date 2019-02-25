@@ -59,10 +59,10 @@ spring:
     liquibase:
         contexts: dev
     mail:
-        host: localhost
+        host: smtp.qq.com
         port: 25
-        username:
-        password:
+        username: 297797235@qq.com
+        password: CKL297797235
     messages:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:

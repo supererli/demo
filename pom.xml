@@ -205,6 +205,7 @@
             <groupId>com.ryantenney.metrics</groupId>
             <artifactId>metrics-spring</artifactId>
         </dependency>
+        <!-- 关系型数据库使用的连接池 -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
@@ -285,6 +286,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!--其中spring-boot-starter-data-jpa也是一个复合pom，里面依赖spring-data-jpa、hibernate-core、spring-boot-starter-jdbc（包含tomcat-jdbc和spring-jdbc）-->
+        <!--从依赖关系可以猜出，默认使用的连接池是tomcat-jdbc，具体的代码-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -747,6 +750,7 @@
                     <artifactId>spring-boot-devtools</artifactId>
                     <optional>true</optional>
                 </dependency>
+                <!-- 默认引用的内存式数据库，开发测试用 -->
                 <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>

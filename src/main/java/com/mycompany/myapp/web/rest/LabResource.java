@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Api(value = "实验室管理",description = "实验室管理")
+@Api(value = "",description = "实验室管理")
 public class LabResource {
 
     private final Logger log = LoggerFactory.getLogger(LabResource.class);
@@ -52,7 +52,7 @@ public class LabResource {
      */
     @PostMapping("/labs")
     @Timed
-    @ApiOperation(value = "创建实验室")
+    @ApiOperation(value = "新增班级")
     public ResponseEntity<Lab> createLab(@Valid @RequestBody Lab lab) throws URISyntaxException {
         log.debug("REST request to save Lab : {}", lab);
         if (lab.getId() != null) {
@@ -75,7 +75,7 @@ public class LabResource {
      */
     @PutMapping("/labs")
     @Timed
-    @ApiOperation(value = "修改实验室")
+    @ApiOperation(value = "修改班级")
     public ResponseEntity<Lab> updateLab(@Valid @RequestBody Lab lab) throws URISyntaxException {
         log.debug("REST request to update Lab : {}", lab);
         if (lab.getId() == null) {

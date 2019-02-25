@@ -1,22 +1,31 @@
+<!--NavbarComponent不仅仅展示菜单外观，还包含不需要路由转换的一些动作语言转换的动作。登录，登出，语种切换。
+    navbar.component.html就是一个相当标准的ngbMenu的html文件了。如果窗口768px，菜单就会自动折叠-->
 <nav class="navbar navbar-dark navbar-expand-md bg-dark">
+    <!--左边一块显示Jhipster图标，工程名，版本信息。-->
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
-        <span jhiTranslate="global.title" class="navbar-title">Demo</span> <span class="navbar-version">{{version}}</span>
+        <!--jhiTranslate="global.title"-->
+        <span class="navbar-title">自动排课系统</span> <span class="navbar-version">{{version}}</span>
     </a>
     <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
         <fa-icon icon="bars"></fa-icon>
     </a>
+    <!--这里开始是menu的区域，使用ngbCollapse控制折叠状态，navbarResponsive的id为data-target-->
+    <!--这了用ngSwitch判断登录情况（所以打开首页，也会自动触发/api/account通讯API -->
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
+            <!--第一个菜单项-home-->
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
                     <span>
                         <fa-icon icon="home"></fa-icon>
-                        <span jhiTranslate="global.menu.home">Home</span>
+                        <!--jhiTranslate="global.menu.home"-->
+                        <span>首页</span>
                     </span>
                 </a>
             </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+            <!-- Entities子菜单由jhipster管理，会根据cli自动修改该部分内容 ，该菜单仅当用户登录后显示-->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
@@ -26,7 +35,9 @@
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+                <!-- 子菜单dropdown下拉框 -->
+                <!--class="dropdown-menu"-->
+                <ul  ngbDropdownMenu aria-labelledby="entity-menu">
                     <li>
                         <a class="dropdown-item" routerLink="course" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -57,9 +68,16 @@
                             <span jhiTranslate="global.menu.entities.student">Student</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="time-table" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.timeTable">Time Table</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
+            <!-- Administration子菜单，该菜单使用了jhiHasAnyAuthority指令，需要有ROLE_ADMIN才显示 -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
@@ -67,6 +85,7 @@
                         <span jhiTranslate="global.menu.admin.main">Administration</span>
                     </span>
                 </a>
+                <!-- 子菜单dropdown下拉框 -->
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
                     <li>
                         <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
@@ -74,6 +93,7 @@
                             <span jhiTranslate="global.menu.admin.userManagement">User management</span>
                         </a>
                     </li>
+                    <!-- swagger菜单，会根据后台返回的profile显示与否 -->
                     <li>
                         <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="tachometer-alt" fixedWidth="true"></fa-icon>
@@ -111,6 +131,7 @@
                         </a>
                     </li>
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+                    <!-- 非生产Profile，增加连接H2数据库的菜单，如果不用H2，这个就可以隐藏掉 -->
                     <li *ngIf="!inProduction">
                         <a class="dropdown-item" href='./h2-console' target="_tab" (click)="collapseNavbar()">
                             <fa-icon icon="hdd" fixedWidth="true"></fa-icon>
@@ -119,6 +140,7 @@
                     </li>
                 </ul>
             </li>
+            <!--语种子菜单-仅当languages为真，多于一个语种时候才显示 -->
             <li ngbDropdown class="nav-item dropdown pointer" *ngIf="languages && languages.length > 1">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
                     <span>
@@ -127,11 +149,13 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="languagesnavBarDropdown">
+                    <!-- 用ngfor 显示语种列表，并用上jhiActiveMenu判断语种激活情况，这里还是用了findLanguageFromKey显示语种的全称 -->
                     <li *ngFor="let language of languages">
                         <a class="dropdown-item" [jhiActiveMenu]="language" href="javascript:void(0);" (click)="changeLanguage(language);collapseNavbar();">{{language | findLanguageFromKey}}</a>
                     </li>
                 </ul>
             </li>
+            <!--Account子菜单-->
             <li ngbDropdown class="nav-item dropdown pointer" placement="bottom-right" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
                   <span *ngIf="!getImageUrl()">
@@ -140,11 +164,13 @@
                       Account
                     </span>
                   </span>
+                    <!--如果能获取用头像，就在这里显示-->
                   <span *ngIf="getImageUrl()">
                       <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar">
                   </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+                    <!-- 子菜单dropdown下拉框 -->
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="wrench" fixedWidth="true"></fa-icon>

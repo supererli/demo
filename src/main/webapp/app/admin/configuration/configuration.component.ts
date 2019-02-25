@@ -25,7 +25,9 @@ export class JhiConfigurationComponent implements OnInit {
         return dict === undefined ? [] : Object.keys(dict);
     }
 
+    // 在init是加载所有的属性
     ngOnInit() {
+        //获取configprops所有配置，并保存其key值
         this.configurationService.get().subscribe(configuration => {
             this.configuration = configuration;
 
@@ -36,6 +38,7 @@ export class JhiConfigurationComponent implements OnInit {
             }
         });
 
+        //获取/env所有配置
         this.configurationService.getEnv().subscribe(configuration => {
             this.allConfiguration = configuration;
         });

@@ -20,13 +20,17 @@ import { DemoAccountModule } from './account/account.module';
 import { DemoEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
+/**
+ * 引入第三方css样式，vendor.ts引入vendor.css，vendor.css引入boot-strap.css和font-awesome.css
+ * */
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 
 @NgModule({
+    //引入其他子模块
     imports: [
-        BrowserModule,
-        DemoAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
+        BrowserModule, //angular浏览器模块，仅主模块需要import
+        DemoAppRoutingModule, //引入路由模块
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }), //给存储的cookie统一增加前缀，防止命名冲突
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: false,
@@ -34,14 +38,16 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
             i18nEnabled: true,
             defaultI18nLang: 'en'
         }),
-        DemoSharedModule.forRoot(),
+        DemoSharedModule.forRoot(), //共享模块
         DemoCoreModule,
-        DemoHomeModule,
-        DemoAccountModule,
+        DemoHomeModule, //首页模块
+        DemoAccountModule, //账号管理模块
         // jhipster-needle-angular-add-module JHipster will add new module here
-        DemoEntityModule
+        DemoEntityModule //实体模块
     ],
+    //主模块自己的组件需要声明(layout中的)
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+    //主模块自己的服务需要声明(layout中的)，根据注入器规则，这里声明的service是整个工程都可以直接用的。
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
@@ -64,6 +70,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
             multi: true
         }
     ],
+    ////声明引导模块（仅主模块才有）
     bootstrap: [JhiMainComponent]
 })
 export class DemoAppModule {

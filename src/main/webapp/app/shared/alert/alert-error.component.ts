@@ -3,6 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager, JhiAlert, JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
+/**
+ * 则在JhiAlertErrorComponent在自己内部保存alert数组（也依赖alertService构造），并且通过cleanHttpErrorListener注册监听httpError的错误，通过异步的方式在compont里面进行通讯错误的提示。
+ * */
 @Component({
     selector: 'jhi-alert-error',
     template: `

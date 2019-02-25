@@ -8,6 +8,8 @@ import { ICourse } from 'app/shared/model/course.model';
 import { CourseService } from './course.service';
 import { ITeacher } from 'app/shared/model/teacher.model';
 import { TeacherService } from 'app/entities/teacher';
+import { ITimeTable } from 'app/shared/model/time-table.model';
+import { TimeTableService } from 'app/entities/time-table';
 import { ILab } from 'app/shared/model/lab.model';
 import { LabService } from 'app/entities/lab';
 
@@ -21,12 +23,15 @@ export class CourseUpdateComponent implements OnInit {
 
     teachers: ITeacher[];
 
+    timetables: ITimeTable[];
+
     labs: ILab[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected courseService: CourseService,
         protected teacherService: TeacherService,
+        protected timeTableService: TimeTableService,
         protected labService: LabService,
         protected activatedRoute: ActivatedRoute
     ) {}
@@ -39,6 +44,12 @@ export class CourseUpdateComponent implements OnInit {
         this.teacherService.query().subscribe(
             (res: HttpResponse<ITeacher[]>) => {
                 this.teachers = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+        this.timeTableService.query().subscribe(
+            (res: HttpResponse<ITimeTable[]>) => {
+                this.timetables = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -81,6 +92,10 @@ export class CourseUpdateComponent implements OnInit {
     }
 
     trackTeacherById(index: number, item: ITeacher) {
+        return item.id;
+    }
+
+    trackTimeTableById(index: number, item: ITimeTable) {
         return item.id;
     }
 

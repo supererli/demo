@@ -23,10 +23,12 @@ import {
 
 @NgModule({
     imports: [
+        //引入共享模块和初始化子路由
         DemoSharedModule,
         RouterModule.forChild(adminState)
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
+    //声明内部组件
     declarations: [
         AuditsComponent,
         UserMgmtComponent,
@@ -41,7 +43,9 @@ import {
         JhiMetricsMonitoringComponent,
         JhiMetricsMonitoringModalComponent
     ],
+    //声明通讯服务
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
+    //声明入口组件
     entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent, JhiMetricsMonitoringModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { ITeacher } from 'app/shared/model/teacher.model';
@@ -23,7 +21,6 @@ export class TeacherUpdateComponent implements OnInit {
     users: IUser[];
 
     grades: IGrade[];
-    teacherTime: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -37,7 +34,6 @@ export class TeacherUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ teacher }) => {
             this.teacher = teacher;
-            this.teacherTime = this.teacher.teacherTime != null ? this.teacher.teacherTime.format(DATE_TIME_FORMAT) : null;
         });
         this.userService.query().subscribe(
             (res: HttpResponse<IUser[]>) => {
@@ -59,7 +55,6 @@ export class TeacherUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.teacher.teacherTime = this.teacherTime != null ? moment(this.teacherTime, DATE_TIME_FORMAT) : null;
         if (this.teacher.id !== undefined) {
             this.subscribeToSaveResponse(this.teacherService.update(this.teacher));
         } else {

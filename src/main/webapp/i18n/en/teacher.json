@@ -17,10 +17,12 @@
             },
             "teacherNo": "Teacher No",
             "teacherName": "Teacher Name",
+            "subject": "Subject",
+            "timeTable": "Time Table",
             "teacherTel": "Teacher Tel",
-            "teacherTime": "Teacher Time",
+            "timeTable": "Time Table",
             "user": "User",
-            "course": "Course",
+            "subject": "Subject",
             "grade": "Grade"
         }
     }

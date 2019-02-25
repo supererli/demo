@@ -38,6 +38,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
             ignored: /node_modules/
         }
     },
+    //指定入口
     entry: {
         polyfills: './src/main/webapp/app/polyfills',
         global: './src/main/webapp/content/scss/global.scss',

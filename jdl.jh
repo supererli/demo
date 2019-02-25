@@ -1,38 +1,51 @@
 entity Course {
 	courseName String required,
-    courseType String required
+    courseType String required,
+    timeTable String required
 }
 entity Teacher {
 	teacherNo String required,
 	teacherName String required,
-    teacherTel String,
-    teacherTime Instant required
+    subject String required,
+    timeTable String required,
+    teacherTel String
 }
 entity Grade {
 	gradeName String required,
     gradeAcademy String required,
-    gradeDepartment String,
-    headTeacher String,
-    gradeTime Instant required
+    gradeDepartment String
 }
 entity Lab {
 	labName String required,
     labType String required,
-    labVolume Integer,
-    labTime Instant required
+    labVolume Integer
 }
 entity Student {
 	name String required,
     stuNo String required
 }
+entity TimeTable {
+	weekday String required,
+    number Integer required
+}
 relationship ManyToMany {
 	Grade{teacher} to Teacher{grade},
-    Lab{course} to Course{lab}
+    Lab{course} to Course{lab},
+    Course{timeTable} to TimeTable
+}
+relationship OneToMany {
+	Student{className} to Grade{studentName},
+	Teacher{timeTable} to TimeTable
+}
+relationship OneToOne {
+	Grade{headTeacher} to Teacher,
+    Grade{teacher} to TimeTable,
+    Lab{timeTable} to TimeTable
 }
 relationship ManyToOne {
-	Course{teacher} to Teacher{course(courseName) required},
+	Course{teacher} to Teacher{subject},
     Teacher{user(login)} to User,
-    Student{grade} to Grade{student}
+    Student{className} to Grade{studentName}
 }
-paginate Course, Teacher, Grade, Lab, Student with infinite-scroll
+paginate Course, Grade, Lab, Student with infinite-scroll
 

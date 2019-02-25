@@ -31,12 +31,29 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.course.timeTable" for="field_timeTable">Time Table</label>
+                    <input type="text" class="form-control" name="timeTable" id="field_timeTable"
+                        [(ngModel)]="course.timeTable" required/>
+                    <div [hidden]="!(editForm.controls.timeTable?.dirty && editForm.controls.timeTable?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.timeTable?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="demoApp.course.teacher" for="field_teacher">Teacher</label>
                     <select class="form-control" id="field_teacher" name="teacher" [(ngModel)]="course.teacher" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="teacherOption.id === course.teacher?.id ? course.teacher : teacherOption" *ngFor="let teacherOption of teachers; trackBy: trackTeacherById">{{teacherOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="demoApp.course.timeTable" for="field_timeTable">Time Table</label>
+                    <select class="form-control" id="field_timeTable" multiple name="timeTable" [(ngModel)]="course.timeTables">
+                        <option [ngValue]="getSelected(course.timeTables, timeTableOption)" *ngFor="let timeTableOption of timetables; trackBy: trackTimeTableById">{{timeTableOption.id}}</option>
                     </select>
                 </div>
             </div>

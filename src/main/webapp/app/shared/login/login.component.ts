@@ -5,7 +5,9 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from 'app/core/login/login.service';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
-
+/**
+ * 在Jhipster中，登录认证状态是由proncipal管理，因而并不需要一个集中的登录页面。登录动作也就抽象才成一个独立的服务，供其他模块调用。
+ * */
 @Component({
     selector: 'jhi-login-modal',
     templateUrl: './login.component.html'

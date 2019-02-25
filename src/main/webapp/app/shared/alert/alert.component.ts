@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { JhiAlertService } from 'ng-jhipster';
 
+/**
+ * JhiAlertErrorComponent和JhiAlertComponent两个组件的外观（template）是一直的，但是内部逻辑有所区别。JhiAlertComponent就完全依赖alertService，使用服务进行显示提示框。
+ * */
 @Component({
     selector: 'jhi-alert',
     template: `

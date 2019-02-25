@@ -19,17 +19,27 @@
                 </dd>
                 <dt><span jhiTranslate="demoApp.grade.headTeacher">Head Teacher</span></dt>
                 <dd>
-                    <span>{{grade.headTeacher}}</span>
+                    <div *ngIf="grade.headTeacher">
+                        <a [routerLink]="['/teacher', grade.headTeacher?.id, 'view']">{{grade.headTeacher?.id}}</a>
+                    </div>
                 </dd>
-                <dt><span jhiTranslate="demoApp.grade.gradeTime">Grade Time</span></dt>
+                <dt><span jhiTranslate="demoApp.grade.teacher">Teacher</span></dt>
                 <dd>
-                    <span>{{grade.gradeTime}}</span>
+                    <div *ngIf="grade.teacher">
+                        <a [routerLink]="['/time-table', grade.teacher?.id, 'view']">{{grade.teacher?.id}}</a>
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="demoApp.grade.teacher">Teacher</span></dt>
                 <dd>
                     <span *ngFor="let teacher of grade.teachers; let last = last">
                         <a [routerLink]="['/teacher', teacher?.id, 'view' ]">{{teacher.id}}</a>{{last ? '' : ', '}}
                     </span>
+                </dd>
+                <dt><span jhiTranslate="demoApp.grade.studentName">Student Name</span></dt>
+                <dd>
+                    <div *ngIf="grade.studentName">
+                        <a [routerLink]="['/student', grade.studentName?.id, 'view']">{{grade.studentName?.id}}</a>
+                    </div>
                 </dd>
             </dl>
 

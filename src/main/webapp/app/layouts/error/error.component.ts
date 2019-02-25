@@ -12,6 +12,7 @@ export class ErrorComponent implements OnInit {
     constructor(private route: ActivatedRoute) {}
 
     ngOnInit() {
+        //从路由里面获取data，并把error403属性和errorMessage赋值到自己组件里面的属性中。
         this.route.data.subscribe(routeData => {
             if (routeData.error403) {
                 this.error403 = routeData.error403;

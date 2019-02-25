@@ -1,3 +1,6 @@
+/**
+ * 使用platformBrowserDynamic启动主模块JhipsterSampleApplicationNg2AppModule
+ * */
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ProdConfig } from './blocks/config/prod.config';
 import { DemoAppModule } from './app.module';

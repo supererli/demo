@@ -1,6 +1,7 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -38,12 +38,11 @@ public class Grade implements Serializable {
     @Column(name = "grade_department")
     private String gradeDepartment;
 
-    @Column(name = "head_teacher")
-    private String headTeacher;
+    @OneToOne    @JoinColumn(unique = true)
+    private Teacher headTeacher;
 
-    @NotNull
-    @Column(name = "grade_time", nullable = false)
-    private Instant gradeTime;
+    @OneToOne    @JoinColumn(unique = true)
+    private TimeTable teacher;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -52,9 +51,13 @@ public class Grade implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "teachers_id", referencedColumnName = "id"))
     private Set<Teacher> teachers = new HashSet<>();
 
-    @OneToMany(mappedBy = "grade")
+    @ManyToOne
+    @JsonIgnoreProperties("classNames")
+    private Student studentName;
+
+    @OneToMany(mappedBy = "className")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Student> students = new HashSet<>();
+    private Set<Student> studentNames = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -103,30 +106,30 @@ public class Grade implements Serializable {
         this.gradeDepartment = gradeDepartment;
     }
 
-    public String getHeadTeacher() {
+    public Teacher getHeadTeacher() {
         return headTeacher;
     }
 
-    public Grade headTeacher(String headTeacher) {
-        this.headTeacher = headTeacher;
+    public Grade headTeacher(Teacher teacher) {
+        this.headTeacher = teacher;
         return this;
     }
 
-    public void setHeadTeacher(String headTeacher) {
-        this.headTeacher = headTeacher;
+    public void setHeadTeacher(Teacher teacher) {
+        this.headTeacher = teacher;
     }
 
-    public Instant getGradeTime() {
-        return gradeTime;
+    public TimeTable getTeacher() {
+        return teacher;
     }
 
-    public Grade gradeTime(Instant gradeTime) {
-        this.gradeTime = gradeTime;
+    public Grade teacher(TimeTable timeTable) {
+        this.teacher = timeTable;
         return this;
     }
 
-    public void setGradeTime(Instant gradeTime) {
-        this.gradeTime = gradeTime;
+    public void setTeacher(TimeTable timeTable) {
+        this.teacher = timeTable;
     }
 
     public Set<Teacher> getTeachers() {
@@ -154,29 +157,42 @@ public class Grade implements Serializable {
         this.teachers = teachers;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public Student getStudentName() {
+        return studentName;
     }
 
-    public Grade students(Set<Student> students) {
-        this.students = students;
+    public Grade studentName(Student student) {
+        this.studentName = student;
         return this;
     }
 
-    public Grade addStudent(Student student) {
-        this.students.add(student);
-        student.setGrade(this);
+    public void setStudentName(Student student) {
+        this.studentName = student;
+    }
+
+    public Set<Student> getStudentNames() {
+        return studentNames;
+    }
+
+    public Grade studentNames(Set<Student> students) {
+        this.studentNames = students;
         return this;
     }
 
-    public Grade removeStudent(Student student) {
-        this.students.remove(student);
-        student.setGrade(null);
+    public Grade addStudentName(Student student) {
+        this.studentNames.add(student);
+        student.setClassName(this);
         return this;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public Grade removeStudentName(Student student) {
+        this.studentNames.remove(student);
+        student.setClassName(null);
+        return this;
+    }
+
+    public void setStudentNames(Set<Student> students) {
+        this.studentNames = students;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -207,8 +223,6 @@ public class Grade implements Serializable {
             ", gradeName='" + getGradeName() + "'" +
             ", gradeAcademy='" + getGradeAcademy() + "'" +
             ", gradeDepartment='" + getGradeDepartment() + "'" +
-            ", headTeacher='" + getHeadTeacher() + "'" +
-            ", gradeTime='" + getGradeTime() + "'" +
             "}";
     }
 }

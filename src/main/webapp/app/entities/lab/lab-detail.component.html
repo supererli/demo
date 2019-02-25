@@ -17,9 +17,11 @@
                 <dd>
                     <span>{{lab.labVolume}}</span>
                 </dd>
-                <dt><span jhiTranslate="demoApp.lab.labTime">Lab Time</span></dt>
+                <dt><span jhiTranslate="demoApp.lab.timeTable">Time Table</span></dt>
                 <dd>
-                    <span>{{lab.labTime}}</span>
+                    <div *ngIf="lab.timeTable">
+                        <a [routerLink]="['/time-table', lab.timeTable?.id, 'view']">{{lab.timeTable?.id}}</a>
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="demoApp.lab.course">Course</span></dt>
                 <dd>

@@ -33,18 +33,17 @@
             <column name="grade_department" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
-            <column name="head_teacher" type="varchar(255)">
-                <constraints nullable="true" />
+            <column name="head_teacher_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_grade_head_teacher_id" />
+            </column>            <column name="teacher_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_grade_teacher_id" />
             </column>
-
-            <column name="grade_time" type="datetime">
-                <constraints nullable="false" />
+            <column name="student_name_id" type="bigint">
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="grade" columnName="grade_time" columnDataType="datetime"/>
         
         <createTable tableName="grade_teacher">
             <column name="teachers_id" type="bigint">

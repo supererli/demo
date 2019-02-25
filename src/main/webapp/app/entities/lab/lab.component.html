@@ -18,7 +18,7 @@
             <th jhiSortBy="labName"><span jhiTranslate="demoApp.lab.labName">Lab Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="labType"><span jhiTranslate="demoApp.lab.labType">Lab Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="labVolume"><span jhiTranslate="demoApp.lab.labVolume">Lab Volume</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="labTime"><span jhiTranslate="demoApp.lab.labTime">Lab Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="timeTable.id"><span jhiTranslate="demoApp.lab.timeTable">Time Table</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -28,7 +28,11 @@
                 <td>{{lab.labName}}</td>
                 <td>{{lab.labType}}</td>
                 <td>{{lab.labVolume}}</td>
-                <td>{{lab.labTime | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="lab.timeTable">
+                        <a [routerLink]="['../time-table', lab.timeTable?.id, 'view' ]" >{{lab.timeTable?.id}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

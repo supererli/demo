@@ -36,24 +36,14 @@
                     <input type="number" class="form-control" name="labVolume" id="field_labVolume"
                         [(ngModel)]="lab.labVolume" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="demoApp.lab.labTime" for="field_labTime">Lab Time</label>
-                    <div class="d-flex">
-                        <input id="field_labTime" type="datetime-local" class="form-control" name="labTime" [(ngModel)]="labTime"
-                        required/>
-                    </div>
-                    <div [hidden]="!(editForm.controls.labTime?.dirty && editForm.controls.labTime?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.labTime?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.labTime?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
-                            This field should be a date and time.
-                        </small>
-                    </div>
-                </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="demoApp.lab.timeTable" for="field_timeTable">Time Table</label>
+                    <select class="form-control" id="field_timeTable" name="timeTable" [(ngModel)]="lab.timeTable">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="timeTableOption.id === lab.timeTable?.id ? lab.timeTable : timeTableOption" *ngFor="let timeTableOption of timetables; trackBy: trackTimeTableById">{{timeTableOption.id}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label jhiTranslate="demoApp.lab.course" for="field_course">Course</label>
                     <select class="form-control" id="field_course" multiple name="course" [(ngModel)]="lab.courses">

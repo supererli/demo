@@ -4,8 +4,11 @@
             <span class="hipster img-fluid rounded"></span>
         </div>
         <div class="col-md-8">
+            //翻译error.title
             <h1 jhiTranslate="error.title">Error Page!</h1>
 
+            //这里简单用了hidden指令，由于没有其他样式了，这么用倒是没什么问题。
+            //官方还是推荐用*ngIf，直接从dom树删除，这个比较display:none保险的的多。
             <div [hidden]="!errorMessage">
                 <div class="alert alert-danger">{{errorMessage}}
                 </div>

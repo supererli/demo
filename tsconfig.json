@@ -20,6 +20,7 @@
         "importHelpers": true,
         "allowJs": true
     },
+    //指定主目录
     "include": ["src/main/webapp/app", "src/test/javascript/"],
     "exclude": ["node_modules"]
 }

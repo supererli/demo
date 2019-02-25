@@ -29,6 +29,7 @@ export class UserMgmtResolve implements Resolve<any> {
     }
 }
 
+// userDialogRoute需要单独配置，它也是AdminModule的子路由，但是其<outlet>是在popup上的，也就是说，相当于JHipster实现的一个弹出层
 export const userMgmtRoute: Routes = [
     {
         path: 'user-management',

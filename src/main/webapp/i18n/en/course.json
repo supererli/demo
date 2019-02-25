@@ -17,7 +17,9 @@
             },
             "courseName": "Course Name",
             "courseType": "Course Type",
+            "timeTable": "Time Table",
             "teacher": "Teacher",
+            "timeTable": "Time Table",
             "lab": "Lab"
         }
     }

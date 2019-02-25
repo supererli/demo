@@ -33,10 +33,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="demoApp.student.grade" for="field_grade">Grade</label>
-                    <select class="form-control" id="field_grade" name="grade" [(ngModel)]="student.grade" >
+                    <label class="form-control-label" jhiTranslate="demoApp.student.className" for="field_className">Class Name</label>
+                    <select class="form-control" id="field_className" name="className" [(ngModel)]="student.className" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="gradeOption.id === student.grade?.id ? student.grade : gradeOption" *ngFor="let gradeOption of grades; trackBy: trackGradeById">{{gradeOption.id}}</option>
+                        <option [ngValue]="gradeOption.id === student.className?.id ? student.className : gradeOption" *ngFor="let gradeOption of grades; trackBy: trackGradeById">{{gradeOption.id}}</option>
                     </select>
                 </div>
             </div>

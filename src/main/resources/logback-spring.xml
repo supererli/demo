@@ -2,6 +2,7 @@
 <!DOCTYPE configuration>
 
 <configuration scan="true">
+    <!--首先，include了默认的base.xml，作为基础。-->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
 <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
@@ -27,6 +28,13 @@
     </root>
 -->
 
+    <!--由于默认的root level="INFO"，那么这里面就针对需要修改的类，进行对应等级调整，
+    如com.ryantenney设置为WARN，io.undertow.websockets.jsr就设置为ERROR，
+    org.apache.catalina.startup.DigesterFactory设置为OFF-->
+
+    <!--默认生成的appender，只配置生效了CONSOLE，但同时也很贴心地写好并注释了FILE的appender，
+    需要的话，取消注释，即可生效。（微服务架构目标是动态伸缩，
+    如果还是每个服务都保存自己的日志文件，有点低效，推荐整合ELK，统一收集日志信息-->
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
     <logger name="javax.management.remote" level="WARN"/>

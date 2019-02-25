@@ -33,14 +33,11 @@
             <column name="lab_volume" type="integer">
                 <constraints nullable="true" />
             </column>
-
-            <column name="lab_time" type="datetime">
-                <constraints nullable="false" />
+            <column name="time_table_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_lab_time_table_id" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="lab" columnName="lab_time" columnDataType="datetime"/>
         
         <createTable tableName="lab_course">
             <column name="courses_id" type="bigint">

@@ -16,18 +16,31 @@
             ]
         },
         {
-            "fieldName": "teacherTel",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "teacherTime",
-            "fieldType": "Instant",
+            "fieldName": "subject",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "timeTable",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "teacherTel",
+            "fieldType": "String"
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "timeTable",
+            "otherEntityName": "timeTable",
+            "otherEntityRelationshipName": "teacher"
+        },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "user",
@@ -36,8 +49,7 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipValidateRules": "required",
-            "relationshipName": "course",
+            "relationshipName": "subject",
             "otherEntityName": "course",
             "otherEntityRelationshipName": "teacher"
         },
@@ -52,7 +64,7 @@
     "changelogDate": "20190114154845",
     "entityTableName": "teacher",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

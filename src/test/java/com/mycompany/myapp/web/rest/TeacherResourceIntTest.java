@@ -3,7 +3,6 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.DemoApp;
 
 import com.mycompany.myapp.domain.Teacher;
-import com.mycompany.myapp.domain.Course;
 import com.mycompany.myapp.repository.TeacherRepository;
 import com.mycompany.myapp.web.rest.errors.ExceptionTranslator;
 
@@ -23,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -49,11 +46,14 @@ public class TeacherResourceIntTest {
     private static final String DEFAULT_TEACHER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_TEACHER_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_SUBJECT = "AAAAAAAAAA";
+    private static final String UPDATED_SUBJECT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TIME_TABLE = "AAAAAAAAAA";
+    private static final String UPDATED_TIME_TABLE = "BBBBBBBBBB";
+
     private static final String DEFAULT_TEACHER_TEL = "AAAAAAAAAA";
     private static final String UPDATED_TEACHER_TEL = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_TEACHER_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_TEACHER_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -99,13 +99,9 @@ public class TeacherResourceIntTest {
         Teacher teacher = new Teacher()
             .teacherNo(DEFAULT_TEACHER_NO)
             .teacherName(DEFAULT_TEACHER_NAME)
-            .teacherTel(DEFAULT_TEACHER_TEL)
-            .teacherTime(DEFAULT_TEACHER_TIME);
-        // Add required entity
-        Course course = CourseResourceIntTest.createEntity(em);
-        em.persist(course);
-        em.flush();
-        teacher.getCourses().add(course);
+            .subject(DEFAULT_SUBJECT)
+            .timeTable(DEFAULT_TIME_TABLE)
+            .teacherTel(DEFAULT_TEACHER_TEL);
         return teacher;
     }
 
@@ -131,8 +127,9 @@ public class TeacherResourceIntTest {
         Teacher testTeacher = teacherList.get(teacherList.size() - 1);
         assertThat(testTeacher.getTeacherNo()).isEqualTo(DEFAULT_TEACHER_NO);
         assertThat(testTeacher.getTeacherName()).isEqualTo(DEFAULT_TEACHER_NAME);
+        assertThat(testTeacher.getSubject()).isEqualTo(DEFAULT_SUBJECT);
+        assertThat(testTeacher.getTimeTable()).isEqualTo(DEFAULT_TIME_TABLE);
         assertThat(testTeacher.getTeacherTel()).isEqualTo(DEFAULT_TEACHER_TEL);
-        assertThat(testTeacher.getTeacherTime()).isEqualTo(DEFAULT_TEACHER_TIME);
     }
 
     @Test
@@ -192,10 +189,28 @@ public class TeacherResourceIntTest {
 
     @Test
     @Transactional
-    public void checkTeacherTimeIsRequired() throws Exception {
+    public void checkSubjectIsRequired() throws Exception {
         int databaseSizeBeforeTest = teacherRepository.findAll().size();
         // set the field null
-        teacher.setTeacherTime(null);
+        teacher.setSubject(null);
+
+        // Create the Teacher, which fails.
+
+        restTeacherMockMvc.perform(post("/api/teachers")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(teacher)))
+            .andExpect(status().isBadRequest());
+
+        List<Teacher> teacherList = teacherRepository.findAll();
+        assertThat(teacherList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkTimeTableIsRequired() throws Exception {
+        int databaseSizeBeforeTest = teacherRepository.findAll().size();
+        // set the field null
+        teacher.setTimeTable(null);
 
         // Create the Teacher, which fails.
 
@@ -221,8 +236,9 @@ public class TeacherResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(teacher.getId().intValue())))
             .andExpect(jsonPath("$.[*].teacherNo").value(hasItem(DEFAULT_TEACHER_NO.toString())))
             .andExpect(jsonPath("$.[*].teacherName").value(hasItem(DEFAULT_TEACHER_NAME.toString())))
-            .andExpect(jsonPath("$.[*].teacherTel").value(hasItem(DEFAULT_TEACHER_TEL.toString())))
-            .andExpect(jsonPath("$.[*].teacherTime").value(hasItem(DEFAULT_TEACHER_TIME.toString())));
+            .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
+            .andExpect(jsonPath("$.[*].timeTable").value(hasItem(DEFAULT_TIME_TABLE.toString())))
+            .andExpect(jsonPath("$.[*].teacherTel").value(hasItem(DEFAULT_TEACHER_TEL.toString())));
     }
     
     @Test
@@ -238,8 +254,9 @@ public class TeacherResourceIntTest {
             .andExpect(jsonPath("$.id").value(teacher.getId().intValue()))
             .andExpect(jsonPath("$.teacherNo").value(DEFAULT_TEACHER_NO.toString()))
             .andExpect(jsonPath("$.teacherName").value(DEFAULT_TEACHER_NAME.toString()))
-            .andExpect(jsonPath("$.teacherTel").value(DEFAULT_TEACHER_TEL.toString()))
-            .andExpect(jsonPath("$.teacherTime").value(DEFAULT_TEACHER_TIME.toString()));
+            .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
+            .andExpect(jsonPath("$.timeTable").value(DEFAULT_TIME_TABLE.toString()))
+            .andExpect(jsonPath("$.teacherTel").value(DEFAULT_TEACHER_TEL.toString()));
     }
 
     @Test
@@ -265,8 +282,9 @@ public class TeacherResourceIntTest {
         updatedTeacher
             .teacherNo(UPDATED_TEACHER_NO)
             .teacherName(UPDATED_TEACHER_NAME)
-            .teacherTel(UPDATED_TEACHER_TEL)
-            .teacherTime(UPDATED_TEACHER_TIME);
+            .subject(UPDATED_SUBJECT)
+            .timeTable(UPDATED_TIME_TABLE)
+            .teacherTel(UPDATED_TEACHER_TEL);
 
         restTeacherMockMvc.perform(put("/api/teachers")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -279,8 +297,9 @@ public class TeacherResourceIntTest {
         Teacher testTeacher = teacherList.get(teacherList.size() - 1);
         assertThat(testTeacher.getTeacherNo()).isEqualTo(UPDATED_TEACHER_NO);
         assertThat(testTeacher.getTeacherName()).isEqualTo(UPDATED_TEACHER_NAME);
+        assertThat(testTeacher.getSubject()).isEqualTo(UPDATED_SUBJECT);
+        assertThat(testTeacher.getTimeTable()).isEqualTo(UPDATED_TIME_TABLE);
         assertThat(testTeacher.getTeacherTel()).isEqualTo(UPDATED_TEACHER_TEL);
-        assertThat(testTeacher.getTeacherTime()).isEqualTo(UPDATED_TEACHER_TIME);
     }
 
     @Test

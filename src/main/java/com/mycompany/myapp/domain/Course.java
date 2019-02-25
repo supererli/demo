@@ -35,9 +35,20 @@ public class Course implements Serializable {
     @Column(name = "course_type", nullable = false)
     private String courseType;
 
+    @NotNull
+    @Column(name = "time_table", nullable = false)
+    private String timeTable;
+
     @ManyToOne
-    @JsonIgnoreProperties("courses")
+    @JsonIgnoreProperties("subjects")
     private Teacher teacher;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "course_time_table",
+               joinColumns = @JoinColumn(name = "courses_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "time_tables_id", referencedColumnName = "id"))
+    private Set<TimeTable> timeTables = new HashSet<>();
 
     @ManyToMany(mappedBy = "courses")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -79,6 +90,19 @@ public class Course implements Serializable {
         this.courseType = courseType;
     }
 
+    public String getTimeTable() {
+        return timeTable;
+    }
+
+    public Course timeTable(String timeTable) {
+        this.timeTable = timeTable;
+        return this;
+    }
+
+    public void setTimeTable(String timeTable) {
+        this.timeTable = timeTable;
+    }
+
     public Teacher getTeacher() {
         return teacher;
     }
@@ -90,6 +114,29 @@ public class Course implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Set<TimeTable> getTimeTables() {
+        return timeTables;
+    }
+
+    public Course timeTables(Set<TimeTable> timeTables) {
+        this.timeTables = timeTables;
+        return this;
+    }
+
+    public Course addTimeTable(TimeTable timeTable) {
+        this.timeTables.add(timeTable);
+        return this;
+    }
+
+    public Course removeTimeTable(TimeTable timeTable) {
+        this.timeTables.remove(timeTable);
+        return this;
+    }
+
+    public void setTimeTables(Set<TimeTable> timeTables) {
+        this.timeTables = timeTables;
     }
 
     public Set<Lab> getLabs() {
@@ -144,6 +191,7 @@ public class Course implements Serializable {
             "id=" + getId() +
             ", courseName='" + getCourseName() + "'" +
             ", courseType='" + getCourseType() + "'" +
+            ", timeTable='" + getTimeTable() + "'" +
             "}";
     }
 }

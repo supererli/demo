@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { ITimeTable } from 'app/shared/model//time-table.model';
 import { IUser } from 'app/core/user/user.model';
 import { ICourse } from 'app/shared/model//course.model';
 import { IGrade } from 'app/shared/model//grade.model';
@@ -7,10 +7,12 @@ export interface ITeacher {
     id?: number;
     teacherNo?: string;
     teacherName?: string;
+    subject?: string;
+    timeTable?: string;
     teacherTel?: string;
-    teacherTime?: Moment;
+    timeTables?: ITimeTable[];
     user?: IUser;
-    courses?: ICourse[];
+    subjects?: ICourse[];
     grades?: IGrade[];
 }
 
@@ -19,10 +21,12 @@ export class Teacher implements ITeacher {
         public id?: number,
         public teacherNo?: string,
         public teacherName?: string,
+        public subject?: string,
+        public timeTable?: string,
         public teacherTel?: string,
-        public teacherTime?: Moment,
+        public timeTables?: ITimeTable[],
         public user?: IUser,
-        public courses?: ICourse[],
+        public subjects?: ICourse[],
         public grades?: IGrade[]
     ) {}
 }

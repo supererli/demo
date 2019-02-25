@@ -1,5 +1,5 @@
-import { Moment } from 'moment';
 import { ITeacher } from 'app/shared/model//teacher.model';
+import { ITimeTable } from 'app/shared/model//time-table.model';
 import { IStudent } from 'app/shared/model//student.model';
 
 export interface IGrade {
@@ -7,10 +7,11 @@ export interface IGrade {
     gradeName?: string;
     gradeAcademy?: string;
     gradeDepartment?: string;
-    headTeacher?: string;
-    gradeTime?: Moment;
+    headTeacher?: ITeacher;
+    teacher?: ITimeTable;
     teachers?: ITeacher[];
-    students?: IStudent[];
+    studentName?: IStudent;
+    studentNames?: IStudent[];
 }
 
 export class Grade implements IGrade {
@@ -19,9 +20,10 @@ export class Grade implements IGrade {
         public gradeName?: string,
         public gradeAcademy?: string,
         public gradeDepartment?: string,
-        public headTeacher?: string,
-        public gradeTime?: Moment,
+        public headTeacher?: ITeacher,
+        public teacher?: ITimeTable,
         public teachers?: ITeacher[],
-        public students?: IStudent[]
+        public studentName?: IStudent,
+        public studentNames?: IStudent[]
     ) {}
 }

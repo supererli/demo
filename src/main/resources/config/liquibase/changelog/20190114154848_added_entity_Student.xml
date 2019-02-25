@@ -30,7 +30,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="grade_id" type="bigint">
+            <column name="class_name_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

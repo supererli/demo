@@ -13,23 +13,25 @@
     <div class="table-responsive" *ngIf="teachers">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="teacherNo"><span jhiTranslate="demoApp.teacher.teacherNo">Teacher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="teacherName"><span jhiTranslate="demoApp.teacher.teacherName">Teacher Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="teacherTel"><span jhiTranslate="demoApp.teacher.teacherTel">Teacher Tel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="teacherTime"><span jhiTranslate="demoApp.teacher.teacherTime">Teacher Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="user.login"><span jhiTranslate="demoApp.teacher.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="demoApp.teacher.teacherNo">Teacher No</span></th>
+            <th><span jhiTranslate="demoApp.teacher.teacherName">Teacher Name</span></th>
+            <th><span jhiTranslate="demoApp.teacher.subject">Subject</span></th>
+            <th><span jhiTranslate="demoApp.teacher.timeTable">Time Table</span></th>
+            <th><span jhiTranslate="demoApp.teacher.teacherTel">Teacher Tel</span></th>
+            <th><span jhiTranslate="demoApp.teacher.user">User</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let teacher of teachers ;trackBy: trackId">
                 <td><a [routerLink]="['/teacher', teacher.id, 'view' ]">{{teacher.id}}</a></td>
                 <td>{{teacher.teacherNo}}</td>
                 <td>{{teacher.teacherName}}</td>
+                <td>{{teacher.subject}}</td>
+                <td>{{teacher.timeTable}}</td>
                 <td>{{teacher.teacherTel}}</td>
-                <td>{{teacher.teacherTime | date:'medium'}}</td>
                 <td>
                     {{teacher.user?.login}}
                 </td>

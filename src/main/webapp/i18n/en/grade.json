@@ -19,9 +19,10 @@
             "gradeAcademy": "Grade Academy",
             "gradeDepartment": "Grade Department",
             "headTeacher": "Head Teacher",
-            "gradeTime": "Grade Time",
             "teacher": "Teacher",
-            "student": "Student"
+            "teacher": "Teacher",
+            "studentName": "Student Name",
+            "studentName": "Student Name"
         }
     }
 }

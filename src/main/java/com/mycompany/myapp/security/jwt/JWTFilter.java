@@ -16,6 +16,19 @@ import java.io.IOException;
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
  * found.
  */
+/**
+ *
+ * @ProjectName:
+ * @Package:        com.mycompany.myapp.security.jwt
+ * @ClassName:      JWTFilter
+ * @Description:其doFilter调用了tokenProvider对HttpServletRequest中jwt数据进行解析,校验
+ * @Author:         chenkangli
+ * @CreateDate:     15:02 2019/2/22
+ * @UpdateUser:
+ * @UpdateDate:     15:02 2019/2/22
+ * @UpdateRemark:
+ * @Version:        1.0
+ */
 public class JWTFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";

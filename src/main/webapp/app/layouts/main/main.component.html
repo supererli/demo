@@ -1,7 +1,10 @@
+<!--该目录为angular程序的主界面控件，包括主界面划分和标题切换的能力-->
+<!--整体页面分为3大块，最上面为<jhi-page-ribbon>块，当程序是微服务测试环境时显示，下面为navbar菜单区域。最下面为主体区域，有包含程序主体-<router-outlet>部分和foot两小块-->
 <jhi-page-ribbon></jhi-page-ribbon>
 <div>
     <router-outlet name="navbar"></router-outlet>
 </div>
+<!--这里已经用了container-fluid和card jh-card，所以包含在各个子模块的html都只是简单的bootstrap的div即可-->
 <div class="container-fluid">
     <div class="card jh-card">
         <router-outlet></router-outlet>

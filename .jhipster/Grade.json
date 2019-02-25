@@ -18,20 +18,25 @@
         {
             "fieldName": "gradeDepartment",
             "fieldType": "String"
-        },
-        {
-            "fieldName": "headTeacher",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "gradeTime",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "headTeacher",
+            "otherEntityName": "teacher",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "grade"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "teacher",
+            "otherEntityName": "timeTable",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "grade"
+        },
         {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "grade",
@@ -41,10 +46,16 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "student",
+            "relationshipType": "many-to-one",
+            "relationshipName": "studentName",
             "otherEntityName": "student",
-            "otherEntityRelationshipName": "grade"
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "studentName",
+            "otherEntityName": "student",
+            "otherEntityRelationshipName": "className"
         }
     ],
     "changelogDate": "20190114154846",

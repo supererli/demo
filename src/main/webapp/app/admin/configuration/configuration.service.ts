@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 
+// 与spring-boot-actuator提供/configprops，/env通讯，获取配置properties信息。
 @Injectable({ providedIn: 'root' })
 export class JhiConfigurationService {
     constructor(private http: HttpClient) {}

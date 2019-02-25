@@ -14,5 +14,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="teacher"/>
 
+        <addForeignKeyConstraint baseColumnNames="courses_id"
+                                 baseTableName="course_time_table"
+                                 constraintName="fk_course_time_table_courses_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="course"/>
+        <addForeignKeyConstraint baseColumnNames="time_tables_id"
+                                 baseTableName="course_time_table"
+                                 constraintName="fk_course_time_table_time_tables_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="time_table"/>
+        
     </changeSet>
 </databaseChangeLog>

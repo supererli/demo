@@ -5,14 +5,11 @@ import com.mycompany.myapp.domain.Teacher;
 import com.mycompany.myapp.repository.TeacherRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
-import com.mycompany.myapp.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +25,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Api(value = "", description = "教师管理")
 public class TeacherResource {
 
     private final Logger log = LoggerFactory.getLogger(TeacherResource.class);
@@ -49,6 +47,7 @@ public class TeacherResource {
      */
     @PostMapping("/teachers")
     @Timed
+    @ApiOperation(value = "新增教师")
     public ResponseEntity<Teacher> createTeacher(@Valid @RequestBody Teacher teacher) throws URISyntaxException {
         log.debug("REST request to save Teacher : {}", teacher);
         if (teacher.getId() != null) {
@@ -71,6 +70,7 @@ public class TeacherResource {
      */
     @PutMapping("/teachers")
     @Timed
+    @ApiOperation(value = "修改教师")
     public ResponseEntity<Teacher> updateTeacher(@Valid @RequestBody Teacher teacher) throws URISyntaxException {
         log.debug("REST request to update Teacher : {}", teacher);
         if (teacher.getId() == null) {
@@ -85,16 +85,14 @@ public class TeacherResource {
     /**
      * GET  /teachers : get all the teachers.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of teachers in body
      */
     @GetMapping("/teachers")
     @Timed
-    public ResponseEntity<List<Teacher>> getAllTeachers(Pageable pageable) {
-        log.debug("REST request to get a page of Teachers");
-        Page<Teacher> page = teacherRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/teachers");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    @ApiOperation(value = "获取所有教师")
+    public List<Teacher> getAllTeachers() {
+        log.debug("REST request to get all Teachers");
+        return teacherRepository.findAll();
     }
 
     /**
@@ -105,6 +103,7 @@ public class TeacherResource {
      */
     @GetMapping("/teachers/{id}")
     @Timed
+    @ApiOperation(value = "获取教师")
     public ResponseEntity<Teacher> getTeacher(@PathVariable Long id) {
         log.debug("REST request to get Teacher : {}", id);
         Optional<Teacher> teacher = teacherRepository.findById(id);
@@ -119,6 +118,7 @@ public class TeacherResource {
      */
     @DeleteMapping("/teachers/{id}")
     @Timed
+    @ApiOperation(value = "删除教师")
     public ResponseEntity<Void> deleteTeacher(@PathVariable Long id) {
         log.debug("REST request to delete Teacher : {}", id);
 

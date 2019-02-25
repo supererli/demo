@@ -25,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +53,6 @@ public class LabResourceIntTest {
 
     private static final Integer DEFAULT_LAB_VOLUME = 1;
     private static final Integer UPDATED_LAB_VOLUME = 2;
-
-    private static final Instant DEFAULT_LAB_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAB_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private LabRepository labRepository;
@@ -106,8 +101,7 @@ public class LabResourceIntTest {
         Lab lab = new Lab()
             .labName(DEFAULT_LAB_NAME)
             .labType(DEFAULT_LAB_TYPE)
-            .labVolume(DEFAULT_LAB_VOLUME)
-            .labTime(DEFAULT_LAB_TIME);
+            .labVolume(DEFAULT_LAB_VOLUME);
         return lab;
     }
 
@@ -134,7 +128,6 @@ public class LabResourceIntTest {
         assertThat(testLab.getLabName()).isEqualTo(DEFAULT_LAB_NAME);
         assertThat(testLab.getLabType()).isEqualTo(DEFAULT_LAB_TYPE);
         assertThat(testLab.getLabVolume()).isEqualTo(DEFAULT_LAB_VOLUME);
-        assertThat(testLab.getLabTime()).isEqualTo(DEFAULT_LAB_TIME);
     }
 
     @Test
@@ -194,24 +187,6 @@ public class LabResourceIntTest {
 
     @Test
     @Transactional
-    public void checkLabTimeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = labRepository.findAll().size();
-        // set the field null
-        lab.setLabTime(null);
-
-        // Create the Lab, which fails.
-
-        restLabMockMvc.perform(post("/api/labs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(lab)))
-            .andExpect(status().isBadRequest());
-
-        List<Lab> labList = labRepository.findAll();
-        assertThat(labList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllLabs() throws Exception {
         // Initialize the database
         labRepository.saveAndFlush(lab);
@@ -223,8 +198,7 @@ public class LabResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(lab.getId().intValue())))
             .andExpect(jsonPath("$.[*].labName").value(hasItem(DEFAULT_LAB_NAME.toString())))
             .andExpect(jsonPath("$.[*].labType").value(hasItem(DEFAULT_LAB_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].labVolume").value(hasItem(DEFAULT_LAB_VOLUME)))
-            .andExpect(jsonPath("$.[*].labTime").value(hasItem(DEFAULT_LAB_TIME.toString())));
+            .andExpect(jsonPath("$.[*].labVolume").value(hasItem(DEFAULT_LAB_VOLUME)));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -273,8 +247,7 @@ public class LabResourceIntTest {
             .andExpect(jsonPath("$.id").value(lab.getId().intValue()))
             .andExpect(jsonPath("$.labName").value(DEFAULT_LAB_NAME.toString()))
             .andExpect(jsonPath("$.labType").value(DEFAULT_LAB_TYPE.toString()))
-            .andExpect(jsonPath("$.labVolume").value(DEFAULT_LAB_VOLUME))
-            .andExpect(jsonPath("$.labTime").value(DEFAULT_LAB_TIME.toString()));
+            .andExpect(jsonPath("$.labVolume").value(DEFAULT_LAB_VOLUME));
     }
 
     @Test
@@ -300,8 +273,7 @@ public class LabResourceIntTest {
         updatedLab
             .labName(UPDATED_LAB_NAME)
             .labType(UPDATED_LAB_TYPE)
-            .labVolume(UPDATED_LAB_VOLUME)
-            .labTime(UPDATED_LAB_TIME);
+            .labVolume(UPDATED_LAB_VOLUME);
 
         restLabMockMvc.perform(put("/api/labs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -315,7 +287,6 @@ public class LabResourceIntTest {
         assertThat(testLab.getLabName()).isEqualTo(UPDATED_LAB_NAME);
         assertThat(testLab.getLabType()).isEqualTo(UPDATED_LAB_TYPE);
         assertThat(testLab.getLabVolume()).isEqualTo(UPDATED_LAB_VOLUME);
-        assertThat(testLab.getLabTime()).isEqualTo(UPDATED_LAB_TIME);
     }
 
     @Test

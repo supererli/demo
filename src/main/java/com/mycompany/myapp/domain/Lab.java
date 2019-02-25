@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -37,9 +36,8 @@ public class Lab implements Serializable {
     @Column(name = "lab_volume")
     private Integer labVolume;
 
-    @NotNull
-    @Column(name = "lab_time", nullable = false)
-    private Instant labTime;
+    @OneToOne    @JoinColumn(unique = true)
+    private TimeTable timeTable;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -96,17 +94,17 @@ public class Lab implements Serializable {
         this.labVolume = labVolume;
     }
 
-    public Instant getLabTime() {
-        return labTime;
+    public TimeTable getTimeTable() {
+        return timeTable;
     }
 
-    public Lab labTime(Instant labTime) {
-        this.labTime = labTime;
+    public Lab timeTable(TimeTable timeTable) {
+        this.timeTable = timeTable;
         return this;
     }
 
-    public void setLabTime(Instant labTime) {
-        this.labTime = labTime;
+    public void setTimeTable(TimeTable timeTable) {
+        this.timeTable = timeTable;
     }
 
     public Set<Course> getCourses() {
@@ -162,7 +160,6 @@ public class Lab implements Serializable {
             ", labName='" + getLabName() + "'" +
             ", labType='" + getLabType() + "'" +
             ", labVolume=" + getLabVolume() +
-            ", labTime='" + getLabTime() + "'" +
             "}";
     }
 }

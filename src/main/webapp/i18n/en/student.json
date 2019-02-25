@@ -17,7 +17,8 @@
             },
             "name": "Name",
             "stuNo": "Stu No",
-            "grade": "Grade"
+            "className": "Class Name",
+            "className": "Class Name"
         }
     }
 }

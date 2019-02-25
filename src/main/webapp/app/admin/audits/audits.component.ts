@@ -8,6 +8,9 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
 
+// 由于使用了日期控件，所以还是值得一看的。在ngOnInit()中就初始化结束时间为明天，而开始时间为前一个月，然后开始调用onChangeDate()查询。
+// onChangeDate()是实际与后端通讯的地方，调用了auditsService的query(),根据返回结果更新页面内容。其中在报文头“X-Total-Count”会返回查询的总数目，有利于分页，而Pageable不用放这些信息。
+
 @Component({
     selector: 'jhi-audit',
     templateUrl: './audits.component.html'

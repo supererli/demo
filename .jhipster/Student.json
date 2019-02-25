@@ -18,8 +18,14 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "className",
+            "otherEntityName": "grade",
+            "otherEntityRelationshipName": "studentName"
+        },
+        {
             "relationshipType": "many-to-one",
-            "relationshipName": "grade",
+            "relationshipName": "className",
             "otherEntityName": "grade",
             "otherEntityField": "id"
         }

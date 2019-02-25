@@ -30,12 +30,27 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="time_table" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="teacher_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        
+        <createTable tableName="course_time_table">
+            <column name="time_tables_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courses_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="courses_id, time_tables_id" tableName="course_time_table"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

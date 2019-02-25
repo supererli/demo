@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+/**
+ * 仅拦截响应Response，遍历响应头中与app-alert，app-params相关的信息，调用alertService构造一个成功信息。
+ * */
 @Injectable()
 export class NotificationInterceptor implements HttpInterceptor {
     constructor(private alertService: JhiAlertService) {}
@@ -16,6 +19,7 @@ export class NotificationInterceptor implements HttpInterceptor {
                         const arr = event.headers.keys();
                         let alert = null;
                         let alertParams = null;
+                        //取出app-alert，app-params的head信息。
                         arr.forEach(entry => {
                             if (entry.toLowerCase().endsWith('app-alert')) {
                                 alert = event.headers.get(entry);
@@ -23,6 +27,7 @@ export class NotificationInterceptor implements HttpInterceptor {
                                 alertParams = event.headers.get(entry);
                             }
                         });
+                        //使用alertService显示成功信息
                         if (alert) {
                             if (typeof alert === 'string') {
                                 this.alertService.success(alert, { param: alertParams }, null);

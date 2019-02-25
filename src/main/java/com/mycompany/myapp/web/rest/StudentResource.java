@@ -7,6 +7,8 @@ import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import com.mycompany.myapp.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Api(value = "",description = "学生管理")
 public class StudentResource {
 
     private final Logger log = LoggerFactory.getLogger(StudentResource.class);
@@ -49,6 +52,7 @@ public class StudentResource {
      */
     @PostMapping("/students")
     @Timed
+    @ApiOperation(value = "新增学生")
     public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) throws URISyntaxException {
         log.debug("REST request to save Student : {}", student);
         if (student.getId() != null) {
@@ -71,6 +75,7 @@ public class StudentResource {
      */
     @PutMapping("/students")
     @Timed
+    @ApiOperation(value = "修改学生")
     public ResponseEntity<Student> updateStudent(@Valid @RequestBody Student student) throws URISyntaxException {
         log.debug("REST request to update Student : {}", student);
         if (student.getId() == null) {
@@ -90,6 +95,7 @@ public class StudentResource {
      */
     @GetMapping("/students")
     @Timed
+    @ApiOperation(value = "获取所有学生")
     public ResponseEntity<List<Student>> getAllStudents(Pageable pageable) {
         log.debug("REST request to get a page of Students");
         Page<Student> page = studentRepository.findAll(pageable);
@@ -105,6 +111,7 @@ public class StudentResource {
      */
     @GetMapping("/students/{id}")
     @Timed
+    @ApiOperation(value = "获取学生")
     public ResponseEntity<Student> getStudent(@PathVariable Long id) {
         log.debug("REST request to get Student : {}", id);
         Optional<Student> student = studentRepository.findById(id);
@@ -119,6 +126,7 @@ public class StudentResource {
      */
     @DeleteMapping("/students/{id}")
     @Timed
+    @ApiOperation(value = "删除学生")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         log.debug("REST request to delete Student : {}", id);
 

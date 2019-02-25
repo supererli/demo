@@ -12,6 +12,9 @@ import { AccountService } from 'app/core/auth/account.service';
  *     <some-element *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">...</some-element>
  * ```
  */
+/**
+ * 通过判断权限列表，决定页面某个标签是否显示。通过注入principal进行判断。其判断有点类似ngif的指令，根据输入的值，调用viewContainerRef重新绘制页面。
+ * */
 @Directive({
     selector: '[jhiHasAnyAuthority]'
 })

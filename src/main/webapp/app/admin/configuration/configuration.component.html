@@ -1,6 +1,7 @@
 <div *ngIf="allConfiguration && configuration">
     <h2 id="configuration-page-heading" jhiTranslate="configuration.title">Configuration</h2>
 
+    <!--用ngModel绑定一个过滤输入框-->
     <span jhiTranslate="configuration.filter">Filter (by prefix)</span> <input type="text" [(ngModel)]="filter" class="form-control">
     <h3>Spring configuration</h3>
     <table class="table table-striped table-bordered table-responsive d-table">
@@ -11,6 +12,8 @@
         </tr>
         </thead>
         <tbody>
+        <!--这里使用了自定义的pureFilter根据上面的过滤输入进行过滤（仅之前前向过滤）-->
+        <!--然后在用排序管道按照'prefix'的顺序排序-->
         <tr *ngFor="let entry of (configuration | pureFilter:filter:'prefix' | orderBy:orderProp:reverse)">
             <td><span>{{entry.prefix}}</span></td>
             <td>
@@ -24,6 +27,7 @@
         </tr>
         </tbody>
     </table>
+    <!--env部分，就是完全显示出来-->
     <div *ngFor="let key of keys(allConfiguration)">
         <h4><span>{{key}}</span></h4>
         <table class="table table-sm table-striped table-bordered table-responsive d-table">

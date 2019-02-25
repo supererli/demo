@@ -2,23 +2,23 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1 jhiTranslate="register.title">Registration</h1>
-
+            <!-- 成功提示，仅当注册成功时显示 -->
             <div class="alert alert-success" *ngIf="success" jhiTranslate="register.messages.success">
                 <strong>Registration saved!</strong> Please check your email for confirmation.
             </div>
-
+            <!-- 失败提示，仅当注册失败时显示 -->
             <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
                 <strong>Registration failed!</strong> Please try again later.
             </div>
-
+            <!-- 失败提示，仅当注册失败，且服务器返回用户已存在时显示 -->
             <div class="alert alert-danger" *ngIf="errorUserExists" jhiTranslate="register.messages.error.userexists">
                 <strong>Login name already registered!</strong> Please choose another one.
             </div>
-
+            <!-- 失败提示，仅当注册失败，且服务器返回注册Email已存在时显示 -->
             <div class="alert alert-danger" *ngIf="errorEmailExists" jhiTranslate="register.messages.error.emailexists">
                 <strong>Email is already in use!</strong> Please choose another one.
             </div>
-
+            <!-- 失败提示，仅当两个密码输入框不符时显示 -->
             <div class="alert alert-danger" *ngIf="doNotMatch" jhiTranslate="global.messages.error.dontmatch">
                 The password and its confirmation do not match!
             </div>
@@ -26,11 +26,15 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <!-- 窗体form定义，提交方法为register，如果注册成功，就不显示了 -->
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
+
                 <div class="form-group">
                     <label class="form-control-label" for="login" jhiTranslate="global.form.username">Username</label>
+                    <!-- 标准的模板方式生成窗体方式，使用ngModel绑定值到login，后面定义了一系列angular的验证器 -->
                     <input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login" name="login" #login="ngModel" placeholder="{{'global.form.username.placeholder' | translate}}"
                             required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
+                    <!-- 统一的错误提示div，包含多个small提示，根据不同的错误类型，有不同的提示 -->
                     <div *ngIf="login.dirty && login.invalid">
                         <small class="form-text text-danger" *ngIf="login.errors.required" jhiTranslate="register.messages.validate.login.required">
                             Your username is required.
@@ -112,9 +116,11 @@
                     </div>
                 </div>
 
+                <!-- 如果窗体不合法，就disable提交按钮 -->
                 <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary" jhiTranslate="register.form.button">Register</button>
             </form>
             <p></p>
+            <!-- 窗体之外，增加默认用户的说明 -->
             <div class="alert alert-warning">
                 <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>
                 <a class="alert-link" (click)="openLogin()" jhiTranslate="global.messages.info.authenticated.link">sign in</a><span jhiTranslate="global.messages.info.authenticated.suffix">, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { ILab } from 'app/shared/model/lab.model';
 import { LabService } from './lab.service';
+import { ITimeTable } from 'app/shared/model/time-table.model';
+import { TimeTableService } from 'app/entities/time-table';
 import { ICourse } from 'app/shared/model/course.model';
 import { CourseService } from 'app/entities/course';
 
@@ -19,12 +19,14 @@ export class LabUpdateComponent implements OnInit {
     lab: ILab;
     isSaving: boolean;
 
+    timetables: ITimeTable[];
+
     courses: ICourse[];
-    labTime: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected labService: LabService,
+        protected timeTableService: TimeTableService,
         protected courseService: CourseService,
         protected activatedRoute: ActivatedRoute
     ) {}
@@ -33,8 +35,22 @@ export class LabUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ lab }) => {
             this.lab = lab;
-            this.labTime = this.lab.labTime != null ? this.lab.labTime.format(DATE_TIME_FORMAT) : null;
         });
+        this.timeTableService.query({ filter: 'lab-is-null' }).subscribe(
+            (res: HttpResponse<ITimeTable[]>) => {
+                if (!this.lab.timeTable || !this.lab.timeTable.id) {
+                    this.timetables = res.body;
+                } else {
+                    this.timeTableService.find(this.lab.timeTable.id).subscribe(
+                        (subRes: HttpResponse<ITimeTable>) => {
+                            this.timetables = [subRes.body].concat(res.body);
+                        },
+                        (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                    );
+                }
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
         this.courseService.query().subscribe(
             (res: HttpResponse<ICourse[]>) => {
                 this.courses = res.body;
@@ -49,7 +65,6 @@ export class LabUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.lab.labTime = this.labTime != null ? moment(this.labTime, DATE_TIME_FORMAT) : null;
         if (this.lab.id !== undefined) {
             this.subscribeToSaveResponse(this.labService.update(this.lab));
         } else {
@@ -72,6 +87,10 @@ export class LabUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackTimeTableById(index: number, item: ITimeTable) {
+        return item.id;
     }
 
     trackCourseById(index: number, item: ICourse) {

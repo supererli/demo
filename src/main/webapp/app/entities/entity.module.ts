@@ -5,6 +5,7 @@ import { DemoTeacherModule } from './teacher/teacher.module';
 import { DemoGradeModule } from './grade/grade.module';
 import { DemoLabModule } from './lab/lab.module';
 import { DemoStudentModule } from './student/student.module';
+import { DemoTimeTableModule } from './time-table/time-table.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -15,6 +16,7 @@ import { DemoStudentModule } from './student/student.module';
         DemoGradeModule,
         DemoLabModule,
         DemoStudentModule,
+        DemoTimeTableModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

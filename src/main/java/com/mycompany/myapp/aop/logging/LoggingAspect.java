@@ -26,6 +26,8 @@ public class LoggingAspect {
 
     private final Environment env;
 
+//    用来把spring启动的环境变量传递进来，可以在logAfterThrowing()看到，
+//    根据生效的profile不同，打印的日志也是不同的。
     public LoggingAspect(Environment env) {
         this.env = env;
     }
@@ -56,6 +58,14 @@ public class LoggingAspect {
      * @param joinPoint join point for advice
      * @param e exception
      */
+    /**
+     * @method  logAfterThrowing
+     * @description 如果业务处理出现异常，这里统一捕捉，并根据激活的profile不同，日志格式有所不同
+     * @date: 2019/2/22 15:38
+     * @author: chenkangli
+
+     * @return void
+     */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
@@ -74,6 +84,14 @@ public class LoggingAspect {
      * @param joinPoint join point for advice
      * @return result
      * @throws Throwable throws IllegalArgumentException
+     */
+    /**
+     * @method
+     * @description 针对需要扩展的业务处理部分，如果log.isDebugEnabled()，则在方法的处理之前，和之后都打印出对应的日志，方便调试。
+     * @date: 2019/2/22 15:39
+     * @author: chenkangli
+
+     * @return
      */
     @Around("applicationPackagePointcut() && springBeanPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {

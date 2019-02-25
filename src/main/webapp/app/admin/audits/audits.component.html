@@ -8,6 +8,8 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" jhiTranslate="audits.filter.from">from</span>
                 </div>
+                <!-- 直接用的是原生date型的input，所以不是很漂亮 -->
+                <!-- 每次值变动都会调用onChangeDate，重新获取数据 -->
                 <input type="date" class="form-control" name="start" [(ngModel)]="fromDate" (ngModelChange)="transition()" required/>
 
                 <div class="input-group-append">
@@ -29,10 +31,12 @@
             </tr>
             </thead>
             <tbody>
+            <!--循环显示查询的Audits数据，利用插值显示 -->
             <tr *ngFor="let audit of audits">
                 <td><span>{{audit.timestamp| date:'medium'}}</span></td>
                 <td><small>{{audit.principal}}</small></td>
                 <td>{{audit.type}}</td>
+                <!-- audit.data数据放在一起，用ng-show显示 -->
                 <td>
                     <span *ngIf="audit.data" ng-show="audit.data.message">{{audit.data.message}}</span>
                     <span *ngIf="audit.data" ng-show="audit.data.remoteAddress"><span jhiTranslate="audits.table.data.remoteAddress">Remote Address</span> {{audit.data.remoteAddress}}</span>

@@ -25,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +53,6 @@ public class GradeResourceIntTest {
 
     private static final String DEFAULT_GRADE_DEPARTMENT = "AAAAAAAAAA";
     private static final String UPDATED_GRADE_DEPARTMENT = "BBBBBBBBBB";
-
-    private static final String DEFAULT_HEAD_TEACHER = "AAAAAAAAAA";
-    private static final String UPDATED_HEAD_TEACHER = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_GRADE_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_GRADE_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private GradeRepository gradeRepository;
@@ -109,9 +101,7 @@ public class GradeResourceIntTest {
         Grade grade = new Grade()
             .gradeName(DEFAULT_GRADE_NAME)
             .gradeAcademy(DEFAULT_GRADE_ACADEMY)
-            .gradeDepartment(DEFAULT_GRADE_DEPARTMENT)
-            .headTeacher(DEFAULT_HEAD_TEACHER)
-            .gradeTime(DEFAULT_GRADE_TIME);
+            .gradeDepartment(DEFAULT_GRADE_DEPARTMENT);
         return grade;
     }
 
@@ -138,8 +128,6 @@ public class GradeResourceIntTest {
         assertThat(testGrade.getGradeName()).isEqualTo(DEFAULT_GRADE_NAME);
         assertThat(testGrade.getGradeAcademy()).isEqualTo(DEFAULT_GRADE_ACADEMY);
         assertThat(testGrade.getGradeDepartment()).isEqualTo(DEFAULT_GRADE_DEPARTMENT);
-        assertThat(testGrade.getHeadTeacher()).isEqualTo(DEFAULT_HEAD_TEACHER);
-        assertThat(testGrade.getGradeTime()).isEqualTo(DEFAULT_GRADE_TIME);
     }
 
     @Test
@@ -199,24 +187,6 @@ public class GradeResourceIntTest {
 
     @Test
     @Transactional
-    public void checkGradeTimeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = gradeRepository.findAll().size();
-        // set the field null
-        grade.setGradeTime(null);
-
-        // Create the Grade, which fails.
-
-        restGradeMockMvc.perform(post("/api/grades")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(grade)))
-            .andExpect(status().isBadRequest());
-
-        List<Grade> gradeList = gradeRepository.findAll();
-        assertThat(gradeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllGrades() throws Exception {
         // Initialize the database
         gradeRepository.saveAndFlush(grade);
@@ -228,9 +198,7 @@ public class GradeResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(grade.getId().intValue())))
             .andExpect(jsonPath("$.[*].gradeName").value(hasItem(DEFAULT_GRADE_NAME.toString())))
             .andExpect(jsonPath("$.[*].gradeAcademy").value(hasItem(DEFAULT_GRADE_ACADEMY.toString())))
-            .andExpect(jsonPath("$.[*].gradeDepartment").value(hasItem(DEFAULT_GRADE_DEPARTMENT.toString())))
-            .andExpect(jsonPath("$.[*].headTeacher").value(hasItem(DEFAULT_HEAD_TEACHER.toString())))
-            .andExpect(jsonPath("$.[*].gradeTime").value(hasItem(DEFAULT_GRADE_TIME.toString())));
+            .andExpect(jsonPath("$.[*].gradeDepartment").value(hasItem(DEFAULT_GRADE_DEPARTMENT.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -279,9 +247,7 @@ public class GradeResourceIntTest {
             .andExpect(jsonPath("$.id").value(grade.getId().intValue()))
             .andExpect(jsonPath("$.gradeName").value(DEFAULT_GRADE_NAME.toString()))
             .andExpect(jsonPath("$.gradeAcademy").value(DEFAULT_GRADE_ACADEMY.toString()))
-            .andExpect(jsonPath("$.gradeDepartment").value(DEFAULT_GRADE_DEPARTMENT.toString()))
-            .andExpect(jsonPath("$.headTeacher").value(DEFAULT_HEAD_TEACHER.toString()))
-            .andExpect(jsonPath("$.gradeTime").value(DEFAULT_GRADE_TIME.toString()));
+            .andExpect(jsonPath("$.gradeDepartment").value(DEFAULT_GRADE_DEPARTMENT.toString()));
     }
 
     @Test
@@ -307,9 +273,7 @@ public class GradeResourceIntTest {
         updatedGrade
             .gradeName(UPDATED_GRADE_NAME)
             .gradeAcademy(UPDATED_GRADE_ACADEMY)
-            .gradeDepartment(UPDATED_GRADE_DEPARTMENT)
-            .headTeacher(UPDATED_HEAD_TEACHER)
-            .gradeTime(UPDATED_GRADE_TIME);
+            .gradeDepartment(UPDATED_GRADE_DEPARTMENT);
 
         restGradeMockMvc.perform(put("/api/grades")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -323,8 +287,6 @@ public class GradeResourceIntTest {
         assertThat(testGrade.getGradeName()).isEqualTo(UPDATED_GRADE_NAME);
         assertThat(testGrade.getGradeAcademy()).isEqualTo(UPDATED_GRADE_ACADEMY);
         assertThat(testGrade.getGradeDepartment()).isEqualTo(UPDATED_GRADE_DEPARTMENT);
-        assertThat(testGrade.getHeadTeacher()).isEqualTo(UPDATED_HEAD_TEACHER);
-        assertThat(testGrade.getGradeTime()).isEqualTo(UPDATED_GRADE_TIME);
     }
 
     @Test

@@ -60,6 +60,7 @@ public class TokenProvider {
                 .getTokenValidityInSecondsForRememberMe();
     }
 
+//    这里利用了jsonwebtoken提供的Jwts工具,进行JWT的数据构建builder(),token验证parseClaimsJws()
     public String createToken(Authentication authentication, boolean rememberMe) {
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)

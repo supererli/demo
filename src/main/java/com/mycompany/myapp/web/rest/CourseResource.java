@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Api(value = "课程管理",description = "课程管理")
+@Api(value = "",description = "课程管理")
 public class CourseResource {
 
     private final Logger log = LoggerFactory.getLogger(CourseResource.class);
@@ -52,7 +52,7 @@ public class CourseResource {
      */
     @PostMapping("/courses")
     @Timed
-    @ApiOperation(value = "创建课程")
+    @ApiOperation(value = "新增课程")
     public ResponseEntity<Course> createCourse(@Valid @RequestBody Course course) throws URISyntaxException {
         log.debug("REST request to save Course : {}", course);
         if (course.getId() != null) {
@@ -75,7 +75,7 @@ public class CourseResource {
      */
     @PutMapping("/courses")
     @Timed
-    @ApiOperation(value = "更新课程")
+    @ApiOperation(value = "修改课程")
     public ResponseEntity<Course> updateCourse(@Valid @RequestBody Course course) throws URISyntaxException {
         log.debug("REST request to update Course : {}", course);
         if (course.getId() == null) {
@@ -91,15 +91,21 @@ public class CourseResource {
      * GET  /courses : get all the courses.
      *
      * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of courses in body
      */
     @GetMapping("/courses")
     @Timed
     @ApiOperation(value = "获取所有课程")
-    public ResponseEntity<List<Course>> getAllCourses(Pageable pageable) {
+    public ResponseEntity<List<Course>> getAllCourses(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Courses");
-        Page<Course> page = courseRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/courses");
+        Page<Course> page;
+        if (eagerload) {
+            page = courseRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = courseRepository.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/courses?eagerload=%b", eagerload));
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -114,7 +120,7 @@ public class CourseResource {
     @ApiOperation(value = "获取课程")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         log.debug("REST request to get Course : {}", id);
-        Optional<Course> course = courseRepository.findById(id);
+        Optional<Course> course = courseRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(course);
     }
 

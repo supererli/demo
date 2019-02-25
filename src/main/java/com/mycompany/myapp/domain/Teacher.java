@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -36,20 +35,27 @@ public class Teacher implements Serializable {
     @Column(name = "teacher_name", nullable = false)
     private String teacherName;
 
+    @NotNull
+    @Column(name = "subject", nullable = false)
+    private String subject;
+
+    @NotNull
+    @Column(name = "time_table", nullable = false)
+    private String timeTable;
+
     @Column(name = "teacher_tel")
     private String teacherTel;
 
-    @NotNull
-    @Column(name = "teacher_time", nullable = false)
-    private Instant teacherTime;
-
+    @OneToMany(mappedBy = "teacher")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<TimeTable> timeTables = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("")
     private User user;
 
     @OneToMany(mappedBy = "teacher")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Course> courses = new HashSet<>();
+    private Set<Course> subjects = new HashSet<>();
     @ManyToMany(mappedBy = "teachers")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
@@ -90,6 +96,32 @@ public class Teacher implements Serializable {
         this.teacherName = teacherName;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public Teacher subject(String subject) {
+        this.subject = subject;
+        return this;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getTimeTable() {
+        return timeTable;
+    }
+
+    public Teacher timeTable(String timeTable) {
+        this.timeTable = timeTable;
+        return this;
+    }
+
+    public void setTimeTable(String timeTable) {
+        this.timeTable = timeTable;
+    }
+
     public String getTeacherTel() {
         return teacherTel;
     }
@@ -103,17 +135,29 @@ public class Teacher implements Serializable {
         this.teacherTel = teacherTel;
     }
 
-    public Instant getTeacherTime() {
-        return teacherTime;
+    public Set<TimeTable> getTimeTables() {
+        return timeTables;
     }
 
-    public Teacher teacherTime(Instant teacherTime) {
-        this.teacherTime = teacherTime;
+    public Teacher timeTables(Set<TimeTable> timeTables) {
+        this.timeTables = timeTables;
         return this;
     }
 
-    public void setTeacherTime(Instant teacherTime) {
-        this.teacherTime = teacherTime;
+    public Teacher addTimeTable(TimeTable timeTable) {
+        this.timeTables.add(timeTable);
+        timeTable.setTeacher(this);
+        return this;
+    }
+
+    public Teacher removeTimeTable(TimeTable timeTable) {
+        this.timeTables.remove(timeTable);
+        timeTable.setTeacher(null);
+        return this;
+    }
+
+    public void setTimeTables(Set<TimeTable> timeTables) {
+        this.timeTables = timeTables;
     }
 
     public User getUser() {
@@ -129,29 +173,29 @@ public class Teacher implements Serializable {
         this.user = user;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public Set<Course> getSubjects() {
+        return subjects;
     }
 
-    public Teacher courses(Set<Course> courses) {
-        this.courses = courses;
+    public Teacher subjects(Set<Course> courses) {
+        this.subjects = courses;
         return this;
     }
 
-    public Teacher addCourse(Course course) {
-        this.courses.add(course);
+    public Teacher addSubject(Course course) {
+        this.subjects.add(course);
         course.setTeacher(this);
         return this;
     }
 
-    public Teacher removeCourse(Course course) {
-        this.courses.remove(course);
+    public Teacher removeSubject(Course course) {
+        this.subjects.remove(course);
         course.setTeacher(null);
         return this;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setSubjects(Set<Course> courses) {
+        this.subjects = courses;
     }
 
     public Set<Grade> getGrades() {
@@ -206,8 +250,9 @@ public class Teacher implements Serializable {
             "id=" + getId() +
             ", teacherNo='" + getTeacherNo() + "'" +
             ", teacherName='" + getTeacherName() + "'" +
+            ", subject='" + getSubject() + "'" +
+            ", timeTable='" + getTimeTable() + "'" +
             ", teacherTel='" + getTeacherTel() + "'" +
-            ", teacherTime='" + getTeacherTime() + "'" +
             "}";
     }
 }

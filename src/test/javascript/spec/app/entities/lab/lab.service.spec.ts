@@ -4,8 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { LabService } from 'app/entities/lab/lab.service';
 import { ILab, Lab } from 'app/shared/model/lab.model';
 
@@ -15,7 +13,6 @@ describe('Service Tests', () => {
         let service: LabService;
         let httpMock: HttpTestingController;
         let elemDefault: ILab;
-        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -23,19 +20,13 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(LabService);
             httpMock = injector.get(HttpTestingController);
-            currentDate = moment();
 
-            elemDefault = new Lab(0, 'AAAAAAA', 'AAAAAAA', 0, currentDate);
+            elemDefault = new Lab(0, 'AAAAAAA', 'AAAAAAA', 0);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign(
-                    {
-                        labTime: currentDate.format(DATE_TIME_FORMAT)
-                    },
-                    elemDefault
-                );
+                const returnedFromService = Object.assign({}, elemDefault);
                 service
                     .find(123)
                     .pipe(take(1))
@@ -48,17 +39,11 @@ describe('Service Tests', () => {
             it('should create a Lab', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0,
-                        labTime: currentDate.format(DATE_TIME_FORMAT)
+                        id: 0
                     },
                     elemDefault
                 );
-                const expected = Object.assign(
-                    {
-                        labTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .create(new Lab(null))
                     .pipe(take(1))
@@ -72,18 +57,12 @@ describe('Service Tests', () => {
                     {
                         labName: 'BBBBBB',
                         labType: 'BBBBBB',
-                        labVolume: 1,
-                        labTime: currentDate.format(DATE_TIME_FORMAT)
+                        labVolume: 1
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign(
-                    {
-                        labTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -97,17 +76,11 @@ describe('Service Tests', () => {
                     {
                         labName: 'BBBBBB',
                         labType: 'BBBBBB',
-                        labVolume: 1,
-                        labTime: currentDate.format(DATE_TIME_FORMAT)
+                        labVolume: 1
                     },
                     elemDefault
                 );
-                const expected = Object.assign(
-                    {
-                        labTime: currentDate
-                    },
-                    returnedFromService
-                );
+                const expected = Object.assign({}, returnedFromService);
                 service
                     .query(expected)
                     .pipe(
